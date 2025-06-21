@@ -356,9 +356,17 @@
         <section id="contact" class="hud-border">
             <h2 data-key="contact_title">Send me a message</h2>
             <p data-key="contact_p">Have a mission in mind or just want to connect? Open a secure channel.</p>
-            <form id="contactForm" class="contact-form">
+            
+            <!-- 
+                ACTION REQUIRED:
+                1. Go to https://formspree.io and create a new form.
+                2. Set the recipient email to "hello@gunnarsoftware.com" in the Formspree settings.
+                3. Replace the placeholder URL below with your unique Formspree endpoint URL.
+            -->
+            <form class="contact-form" action="https://formspree.io/f/xovwnzzv" method="POST">
                 <input type="text" name="name" data-key="form_name_placeholder" placeholder="CALLSIGN // YOUR NAME" required>
-                <input type="email" name="email" data-key="form_email_placeholder" placeholder="COMM_CHANNEL // YOUR EMAIL" required>
+                <!-- The 'name' attribute is set to "_replyto" for Formspree to correctly handle reply emails -->
+                <input type="email" name="_replyto" data-key="form_email_placeholder" placeholder="COMM_CHANNEL // YOUR EMAIL" required>
                 <textarea name="message" rows="5" data-key="form_message_placeholder" placeholder="TRANSMISSION..."></textarea>
                 <button type="submit" class="cta-button" data-key="form_button">[ SEND TRANSMISSION ]</button>
             </form>
@@ -586,13 +594,8 @@
                 });
             });
 
-            // Form submission alert
-            const contactForm = document.getElementById('contactForm');
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                alert('SYSTEM MESSAGE: Transmission received. Awaiting response.');
-                contactForm.reset();
-            });
+            // The form submission is now handled by the 'action' attribute on the <form> tag.
+            // No custom JavaScript is needed for submission.
             
             // Set initial language based on browser preference
             const userLang = navigator.language || navigator.userLanguage;
