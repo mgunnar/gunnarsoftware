@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gunnar Software - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Flag Icon CSS Library -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/css/flag-icons.min.css"/>
+    <style>
+        /* CSS - STYLING */
+        :root {
+            --primary-color: #00ff41; /* Bright Green */
+            --background-color: #0d0d1a; /* Very Dark Blue */
+            --hud-frame-color: #3a3a5e;
+            --text-color: #d0d0ff;
+            /* MODIFICATION: Reduced scanline opacity for a subtler effect */
+            --scanline-opacity: 0.04;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Fira Code', monospace;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            font-size: 16px;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+        
+        /* Cockpit Overlay & Scanlines */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0) 0,
+                    rgba(0, 0, 0, 0) 2px,
+                    rgba(255, 255, 255, var(--scanline-opacity)) 3px,
+                    rgba(255, 255, 255, var(--scanline-opacity)) 4px
+                );
+            pointer-events: none;
+            z-index: 1000;
+            /* MODIFICATION: Subtler flicker animation */
+            animation: subtle-flicker 0.2s infinite;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem 0;
+        }
+
+        /* --- HUD (Header & UI Elements) --- */
+        .hud-border {
+            border: 2px solid var(--hud-frame-color);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            position: relative;
+            background: rgba(13, 13, 26, 0.5);
+            animation: pulse-glow 4s infinite ease-in-out;
+        }
+
+        .hud-border::before, .hud-border::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border: 2px solid var(--primary-color);
+        }
+        .hud-border::before { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .hud-border::after { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        
+        .corner-bottom-left, .corner-bottom-right {
+             position: absolute;
+             width: 10px;
+             height: 10px;
+             border: 2px solid var(--primary-color);
+        }
+        .corner-bottom-left { bottom: -2px; left: -2px; border-top: none; border-right: none;}
+        .corner-bottom-right { bottom: -2px; right: -2px; border-top: none; border-left: none;}
+
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 1.5rem;
+            border-bottom: 2px solid var(--hud-frame-color);
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        
+        /* Language Switcher Styling */
+        .lang-switcher {
+            display: flex;
+            gap: 1rem;
+        }
+        .lang-switcher a {
+            text-decoration: none;
+            opacity: 0.7;
+            transition: opacity 0.3s, transform 0.3s;
+            display: inline-block;
+            line-height: 1;
+        }
+        .lang-switcher .fi {
+            font-size: 1.5rem; /* Flag icon size */
+            border-radius: 3px;
+        }
+        .lang-switcher a:hover {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .lang-switcher a.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+        .lang-switcher a.active .fi {
+             filter: drop-shadow(0 0 5px var(--primary-color));
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 0.2rem 0;
+            transition: color 0.3s, text-shadow 0.3s;
+        }
+
+        nav a:hover, nav a.active {
+            color: var(--primary-color);
+            text-shadow: 0 0 8px var(--primary-color);
+        }
+        
+        /* --- Main Content Sections --- */
+        h1, h2, h3 {
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        h2::before {
+            content: '>> ';
+        }
+
+        .hero {
+            text-align: center;
+            min-height: 250px;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-top: 1rem;
+        }
+
+        .typing-cursor {
+            display: inline-block;
+            background-color: var(--primary-color);
+            width: 10px;
+            height: 2.5rem;
+            animation: blink 1s step-end infinite;
+            box-shadow: 0 0 5px var(--primary-color);
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 600px;
+            margin: 1rem auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            padding: 10px 20px;
+            text-decoration: none;
+            margin-top: 1.5rem;
+            transition: background 0.3s, color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background: var(--primary-color);
+            color: var(--background-color);
+            box-shadow: 0 0 15px var(--primary-color);
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .contact-form input, .contact-form textarea {
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid var(--hud-frame-color);
+            color: var(--text-color);
+            padding: 10px;
+            margin-bottom: 1rem;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .contact-form input:focus, .contact-form textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .contact-form button {
+            cursor: pointer;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            border-top: 2px solid var(--hud-frame-color);
+            font-size: 0.9rem;
+        }
+        
+        .social-links a {
+            color: var(--primary-color);
+            text-decoration: none;
+            margin: 0 10px;
+            font-size: 1.2rem;
+        }
+
+        /* Animations */
+        @keyframes subtle-flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.95; }
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 10px var(--hud-frame-color); }
+            50% { box-shadow: 0 0 15px var(--hud-frame-color), 0 0 5px var(--primary-color); }
+        }
+
+        @keyframes blink {
+            from, to { background-color: transparent }
+            50% { background-color: var(--primary-color); }
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            nav ul {
+                padding-left: 0;
+            }
+             nav ul li {
+                margin: 0.5rem;
+            }
+            .hero h1 {
+                font-size: 2rem;
+            }
+        }
+        
+    </style>
+</head>
+<body>
+    
+    <header>
+        <div class="logo">GUNNAR_SOFTWARE</div>
+        <div class="lang-switcher">
+            <a href="#" class="lang-link active" onclick="setLanguage('en')"><span class="fi fi-us"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('pt')"><span class="fi fi-br"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('es')"><span class="fi fi-es"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('ru')"><span class="fi fi-ru"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('ar')"><span class="fi fi-sa"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('ja')"><span class="fi fi-jp"></span></a>
+        </div>
+    </header>
+
+    <div class="container">
+        <nav class="hud-border">
+             <ul>
+                <li><a href="#about" class="active" data-key="nav_who">01_WHO_AM_I</a></li>
+                <li><a href="#capabilities" data-key="nav_caps">02_CAPABILITIES</a></li>
+                <li><a href="#contact" data-key="nav_comms">03_COMMS</a></li>
+            </ul>
+        </nav>
+
+        <section id="hero" class="hero hud-border">
+            <h1>Matheus Gunnar</h1>
+            <p><span data-key="hero_iam">I'm a</span> <span class="typed-text"></span><span class="typing-cursor">&nbsp;</span></p>
+            <p data-key="hero_tagline">Building versatile and resilient digital solutions, bridging robust, high-level Java architecture with the low-level efficiency of C for embedded systems.</p>
+            <a href="#capabilities" class="cta-button" data-key="hero_cta">[ VIEW CAPABILITIES ]</a>
+            <div class="corner-bottom-left"></div>
+            <div class="corner-bottom-right"></div>
+        </section>
+
+        <section id="about" class="hud-border">
+            <h2 data-key="about_title">WHO AM I?</h2>
+            <p data-key="about_p">
+                I am a software developer who thrives on navigating rapidly changing environments and collaborating within dynamic teams. My mission is to engineer robust software solutions, transforming complex web development challenges into seamless and impactful user experiences.
+            </p>
+            <div class="corner-bottom-left"></div>
+            <div class="corner-bottom-right"></div>
+        </section>
+
+        <section id="capabilities" class="hud-border">
+            <h2 data-key="caps_title">Core Capabilities</h2>
+            <p data-key="caps_p1">
+                Specializing in Backend and Embedded Software, I engineer robust solutions by combining advanced training with hands-on experience. My core arsenal includes <b>Java, Spring Boot, Node.js, C, and .NET</b>, with a proven flight log in developing and migrating microservices for the financial sector and executing the full development lifecycle under Agile methodologies.
+            </p>
+            <p data-key="caps_p2">
+                This practical experience is reinforced by a degree in <b>Systems Analysis</b> and is currently being elevated through a specialization in <b>Embedded Software</b> for the aeronautical industry with Embraer and CIn/UFPE.
+            </p>
+            <p data-key="caps_p3">
+                For a comprehensive overview of my professional background and detailed experience, my <a href="https://www.linkedin.com/in/matheusgunnar" target="_blank" style="color: var(--primary-color);">LinkedIn</a> profile serves as the primary record.
+            </p>
+            <div class="corner-bottom-left"></div>
+            <div class="corner-bottom-right"></div>
+        </section>
+
+
+        <section id="contact" class="hud-border">
+            <h2 data-key="contact_title">Send me a message</h2>
+            <p data-key="contact_p">Have a mission in mind or just want to connect? Open a secure channel.</p>
+            <form id="contactForm" class="contact-form">
+                <input type="text" name="name" data-key="form_name_placeholder" placeholder="CALLSIGN // YOUR NAME" required>
+                <input type="email" name="email" data-key="form_email_placeholder" placeholder="COMM_CHANNEL // YOUR EMAIL" required>
+                <textarea name="message" rows="5" data-key="form_message_placeholder" placeholder="TRANSMISSION..."></textarea>
+                <button type="submit" class="cta-button" data-key="form_button">[ SEND TRANSMISSION ]</button>
+            </form>
+            <div class="corner-bottom-left"></div>
+            <div class="corner-bottom-right"></div>
+        </section>
+    </div>
+
+    <footer>
+        <div class="social-links">
+            <a href="https://github.com/mgunnar/" target="_blank">GitHub</a>
+            <a href="https://www.linkedin.com/in/matheusgunnar" target="_blank">LinkedIn</a>
+        </div>
+        <p data-key="footer_copy">&copy; 2025 GUNNARSOFTWARE.COM :: ALL SYSTEMS NOMINAL</p>
+    </footer>
+
+    <script>
+        // --- TRANSLATION LOGIC ---
+        const translations = {
+            en: {
+                nav_who: "01_WHO_AM_I", nav_caps: "02_CAPABILITIES", nav_comms: "03_COMMS",
+                hero_iam: "I'm a",
+                hero_tagline: "Building versatile and resilient digital solutions, bridging robust, high-level Java architecture with the low-level efficiency of C for embedded systems.",
+                hero_cta: "[ VIEW CAPABILITIES ]",
+                about_title: "WHO AM I?",
+                about_p: "I am a software developer who thrives on navigating rapidly changing environments and collaborating within dynamic teams. My mission is to engineer robust software solutions, transforming complex web development challenges into seamless and impactful user experiences.",
+                caps_title: "Core Capabilities",
+                caps_p1: "Specializing in Backend and Embedded Software, I engineer robust solutions by combining advanced training with hands-on experience. My core arsenal includes <b>Java, Spring Boot, Node.js, C, and .NET</b>, with a proven flight log in developing and migrating microservices for the financial sector and executing the full development lifecycle under Agile methodologies.",
+                caps_p2: "This practical experience is reinforced by a degree in <b>Systems Analysis</b> and is currently being elevated through a specialization in <b>Embedded Software</b> for the aeronautical industry with Embraer and CIn/UFPE.",
+                caps_p3: "For a comprehensive overview of my professional background and detailed experience, my <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> profile serves as the primary record.",
+                contact_title: "Send me a message",
+                contact_p: "Have a mission in mind or just want to connect? Open a secure channel.",
+                form_name_placeholder: "CALLSIGN // YOUR NAME", form_email_placeholder: "COMM_CHANNEL // YOUR EMAIL", form_message_placeholder: "TRANSMISSION...",
+                form_button: "[ SEND TRANSMISSION ]",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: ALL SYSTEMS NOMINAL"
+            },
+            pt: {
+                nav_who: "01_QUEM_SOU_EU", nav_caps: "02_CAPACIDADES", nav_comms: "03_CONTATO",
+                hero_iam: "Eu sou",
+                hero_tagline: "Construindo soluções digitais versáteis e resilientes, unindo a robustez da arquitetura Java de alto nível com a eficiência de baixo nível do C para sistemas embarcados.",
+                hero_cta: "[ VER CAPACIDADES ]",
+                about_title: "QUEM SOU EU?",
+                about_p: "Sou um desenvolvedor de software que prospera ao navegar em ambientes que mudam rapidamente e ao colaborar com equipes dinâmicas. Minha missão é projetar soluções de software robustas, transformando desafios complexos de desenvolvimento web em experiências de usuário fluidas e impactantes.",
+                caps_title: "Capacidades Essenciais",
+                caps_p1: "Especialista em Backend e Software Embarcado, projeto soluções robustas combinando treinamento avançado com experiência prática. Meu arsenal principal inclui <b>Java, Spring Boot, Node.js, C e .NET</b>, com um histórico comprovado no desenvolvimento e migração de microsserviços para o setor financeiro e na execução do ciclo de vida completo de desenvolvimento sob metodologias ágeis.",
+                caps_p2: "Essa experiência prática é reforçada por uma graduação em <b>Análise de Sistemas</b> e atualmente está sendo elevada por meio de uma especialização em <b>Software Embarcado</b> para a indústria aeronáutica com a Embraer e o CIn/UFPE.",
+                caps_p3: "Para uma visão abrangente do meu histórico profissional e experiência detalhada, meu perfil no <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> serve como o registro principal.",
+                contact_title: "Envie-me uma mensagem",
+                contact_p: "Tem uma missão em mente ou só quer se conectar? Abra um canal seguro.",
+                form_name_placeholder: "IDENTIFICAÇÃO // SEU NOME", form_email_placeholder: "CANAL_COMMS // SEU EMAIL", form_message_placeholder: "TRANSMISSÃO...",
+                form_button: "[ ENVIAR TRANSMISSÃO ]",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TODOS OS SISTEMAS NOMINAIS"
+            },
+            es: {
+                nav_who: "01_QUIÉN_SOY", nav_caps: "02_CAPACIDADES", nav_comms: "03_CONTACTO",
+                hero_iam: "Soy un",
+                hero_tagline: "Construyendo soluciones digitales versátiles y resilientes, uniendo la robusta arquitectura Java de alto nivel con la eficiencia de bajo nivel de C para sistemas embebidos.",
+                hero_cta: "[ VER CAPACIDADES ]",
+                about_title: "¿QUIÉN SOY?",
+                about_p: "Soy un desarrollador de software que prospera navegando en entornos que cambian rápidamente y colaborando en equipos dinámicos. Mi misión es diseñar soluciones de software robustas, transformando complejos desafíos de desarrollo web en experiencias de usuario fluidas e impactantes.",
+                caps_title: "Capacidades Centrales",
+                caps_p1: "Especializado en Backend y Software Embebido, diseño soluciones robustas combinando formación avanzada con experiencia práctica. Mi arsenal principal incluye <b>Java, Spring Boot, Node.js, C y .NET</b>, con un historial probado en el desarrollo y migración de microservicios para el sector financiero y en la ejecución del ciclo de vida completo de desarrollo bajo metodologías ágiles.",
+                caps_p2: "Esta experiencia práctica se ve reforzada por una licenciatura en <b>Análisis de Sistemas</b> y actualmente se está elevando a través de una especialización en <b>Software Embebido</b> para la industria aeronáutica con Embraer y CIn/UFPE.",
+                caps_p3: "Para un resumen completo de mi trayectoria profesional y experiencia detallada, mi perfil de <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> sirve como el registro principal.",
+                contact_title: "Envíame un mensaje",
+                contact_p: "¿Tienes una misión en mente o solo quieres conectar? Abre un canal seguro.",
+                form_name_placeholder: "SEÑAL // TU NOMBRE", form_email_placeholder: "CANAL_COMMS // TU EMAIL", form_message_placeholder: "TRANSMISIÓN...",
+                form_button: "[ ENVIAR TRANSMISIÓN ]",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TODOS LOS SISTEMAS NOMINALES"
+            },
+            ru: {
+                nav_who: "01_КТО_Я", nav_caps: "02_КОМПЕТЕНЦИИ", nav_comms: "03_СВЯЗЬ",
+                hero_iam: "Я",
+                hero_tagline: "Создание универсальных и отказоустойчивых цифровых решений, объединяющих надежную высокоуровневую архитектуру Java с низкоуровневой эффективностью C для встраиваемых систем.",
+                hero_cta: "[ ПОСМОТРЕТЬ КОМПЕТЕНЦИИ ]",
+                about_title: "КТО Я?",
+                about_p: "Я разработчик программного обеспечения, который преуспевает в быстро меняющихся средах и в сотрудничестве с динамичными командами. Моя миссия — создавать надежные программные решения, превращая сложные задачи веб-разработки в удобный и эффективный пользовательский опыт.",
+                caps_title: "Основные компетенции",
+                caps_p1: "Специализируясь на бэкенде и встраиваемом ПО, я создаю надежные решения, сочетая передовое обучение с практическим опытом. Мой основной арсенал включает <b>Java, Spring Boot, Node.js, C и .NET</b>, с подтвержденным опытом разработки и миграции микросервисов для финансового сектора и выполнения полного жизненного цикла разработки по методологиям Agile.",
+                caps_p2: "Этот практический опыт подкреплен степенью в области <b>Системного анализа</b> и в настоящее время повышается за счет специализации по <b>Встраиваемому программному обеспечению</b> для авиационной промышленности в Embraer и CIn/UFPE.",
+                caps_p3: "Для получения полного обзора моего профессионального пути и подробного опыта мой профиль в <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> служит основной записью.",
+                contact_title: "Отправьте мне сообщение",
+                contact_p: "Есть миссия или просто хотите связаться? Откройте безопасный канал.",
+                form_name_placeholder: "ПОЗЫВНОЙ // ВАШЕ ИМЯ", form_email_placeholder: "КАНАЛ СВЯЗИ // ВАШ EMAIL", form_message_placeholder: "СООБЩЕНИЕ...",
+                form_button: "[ ОТПРАВИТЬ СООБЩЕНИЕ ]",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: ВСЕ СИСТЕМЫ В НОРМЕ"
+            },
+            ar: {
+                nav_who: "01_من_أنا", nav_caps: "02_القدرات", nav_comms: "03_الاتصال",
+                hero_iam: "أنا",
+                hero_tagline: "بناء حلول رقمية متعددة الاستخدامات ومرنة، من خلال ربط بنية Java القوية عالية المستوى مع كفاءة لغة C منخفضة المستوى للأنظمة المدمجة.",
+                hero_cta: "[ عرض القدرات ]",
+                about_title: "من أنا؟",
+                about_p: "أنا مطور برمجيات أزدهر في بيئات سريعة التغير والتعاون ضمن فرق ديناميكية. مهمتي هي هندسة حلول برمجية قوية، وتحويل تحديات تطوير الويب المعقدة إلى تجارب مستخدم سلسة ومؤثرة.",
+                caps_title: "القدرات الأساسية",
+                caps_p1: "متخصص في الواجهة الخلفية والبرامج المدمجة، أقوم بهندسة حلول قوية من خلال الجمع بين التدريب المتقدم والخبرة العملية. ترسانتي الأساسية تشمل <b>Java, Spring Boot, Node.js, C, and .NET</b>، مع سجل حافل في تطوير وترحيل الخدمات المصغرة للقطاع المالي وتنفيذ دورة حياة التطوير الكاملة وفقًا لمنهجيات Agile.",
+                caps_p2: "هذه الخبرة العملية معززة بشهادة في <b>تحليل النظم</b> ويتم حاليًا رفع مستواها من خلال التخصص في <b>البرامج المدمجة</b> لصناعة الطيران مع Embraer و CIn/UFPE.",
+                caps_p3: "للحصول على نظرة شاملة على خلفيتي المهنية وخبرتي التفصيلية، يعمل ملفي الشخصي على <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> كسجل أساسي.",
+                contact_title: "أرسل لي رسالة",
+                contact_p: "هل لديك مهمة في الاعتبار أو ترغب فقط في التواصل؟ افتح قناة آمنة.",
+                form_name_placeholder: "رمز النداء // اسمك", form_email_placeholder: "قناة الاتصال // بريدك الإلكتروني", form_message_placeholder: "رسالة...",
+                form_button: "[ إرسال الرسالة ]",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: جميع الأنظمة تعمل"
+            },
+            ja: {
+                nav_who: "01_自己紹介", nav_caps: "02_能力", nav_comms: "03_連絡先",
+                hero_iam: "私は",
+                hero_tagline: "堅牢な高レベルJavaアーキテクチャと組込みシステム向けの低レベルCの効率性を組み合わせ、多用途で回復力のあるデジタルソリューションを構築します。",
+                hero_cta: "[ 能力を見る ]",
+                about_title: "自己紹介",
+                about_p: "私は、急速に変化する環境をナビゲートし、ダイナミックなチーム内で協力することに長けたソフトウェア開発者です。私の使命は、堅牢なソフトウェアソリューションを設計し、複雑なWeb開発の課題をシームレスでインパクトのあるユーザーエクスペリエンスに変えることです。",
+                caps_title: "中心的な能力",
+                caps_p1: "バックエンドと組込みソフトウェアを専門とし、高度なトレーニングと実践的な経験を組み合わせて堅牢なソリューションを設計します。私の主要な武器には<b>Java、Spring Boot、Node.js、C、.NET</b>が含まれ、金融セクター向けのマイクロサービスの開発と移行、およびアジャイル方法論の下での完全な開発ライフサイクルの実行において実績があります。",
+                caps_p2: "この実務経験は、<b>システム分析</b>の学位によって補強されており、現在、EmbraerおよびCIn/UFPEとの航空産業向け<b>組込みソフトウェア</b>の専門分野を通じてさらに向上しています。",
+                caps_p3: "私の職務経歴および詳細な経験の包括的な概要については、私の<a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a>プロフィールが主要な記録となります。",
+                contact_title: "メッセージを送る",
+                contact_p: "ミッションを念頭に置いているか、単に接続したいですか？安全なチャネルを開いてください。",
+                form_name_placeholder: "コールサイン // あなたの名前", form_email_placeholder: "通信チャネル // あなたのメール", form_message_placeholder: "送信内容...",
+                form_button: "[ 送信する ]",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: 全システム正常"
+            }
+        };
+
+        const textArrays = {
+            en: ["Embedded Software Developer", "Java Developer", "C Developer","Software Developer"],
+            pt: ["Desenvolvedor de Software Embarcado", "Desenvolvedor Java", "Desenvolvedor C", "Desenvolvedor de Software"],
+            es: ["Desarrollador de Software Embebido", "Desarrollador Java", "Desarrollador C", "Desarrollador de Software"],
+            ru: ["Разработчик встраиваемого ПО", "Java-разработчик", "C-разработчик", "Разработчик ПО"],
+            ar: ["مطور برامج مدمجة", "مطور Java", "مطور C", "مطور برامج"],
+            ja: ["組込みソフトウェア開発者", "Java開発者", "C開発者", "ソフトウェア開発者"]
+        };
+
+        let currentLang = 'en';
+        let typeTimeout, eraseTimeout;
+        let textArrayIndex = 0;
+        let charIndex = 0;
+        const typedTextSpan = document.querySelector(".typed-text");
+        const cursorSpan = document.querySelector(".typing-cursor");
+
+        function setLanguage(lang) {
+            // Update all text based on data-key attribute
+            document.querySelectorAll('[data-key]').forEach(elem => {
+                const key = elem.getAttribute('data-key');
+                if (translations[lang] && translations[lang][key]) {
+                    if (key.includes('_placeholder')) {
+                        elem.placeholder = translations[lang][key];
+                    } else {
+                        elem.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+            
+            // Set page direction for Arabic
+            if (lang === 'ar') {
+                document.documentElement.setAttribute('dir', 'rtl');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+            }
+            
+            document.documentElement.lang = lang;
+            currentLang = lang;
+            
+            // Update active flag for language switcher
+            document.querySelectorAll('.lang-link').forEach(link => link.classList.remove('active'));
+            document.querySelector(`.lang-link[onclick="setLanguage('${lang}')"]`).classList.add('active');
+
+            // Reset and restart typing animation for the new language
+            clearTimeout(typeTimeout);
+            clearTimeout(eraseTimeout);
+            textArrayIndex = 0;
+            charIndex = 0;
+            typedTextSpan.textContent = '';
+            cursorSpan.classList.remove("typing");
+            type(); 
+        }
+
+        // --- GENERAL PAGE LOGIC ---
+        function type() {
+            const currentTextArray = textArrays[currentLang];
+            if (charIndex < currentTextArray[textArrayIndex].length) {
+                if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
+                typedTextSpan.textContent += currentTextArray[textArrayIndex].charAt(charIndex);
+                charIndex++;
+                typeTimeout = setTimeout(type, 100);
+            } else {
+                cursorSpan.classList.remove("typing");
+                eraseTimeout = setTimeout(erase, 2000);
+            }
+        }
+
+        function erase() {
+            const currentTextArray = textArrays[currentLang];
+            if (charIndex > 0) {
+                if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
+                typedTextSpan.textContent = currentTextArray[textArrayIndex].substring(0, charIndex - 1);
+                charIndex--;
+                eraseTimeout = setTimeout(erase, 50);
+            } else {
+                cursorSpan.classList.remove("typing");
+                textArrayIndex++;
+                if (textArrayIndex >= currentTextArray.length) textArrayIndex = 0;
+                typeTimeout = setTimeout(type, 1100);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Active nav link on scroll
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('nav a');
+            window.addEventListener('scroll', ()=> {
+                let current = 'hero';
+                sections.forEach( section => {
+                    const sectionTop = section.offsetTop;
+                    if(pageYOffset >= sectionTop - 200){
+                        current = section.getAttribute('id');
+                    }
+                });
+
+                navLinks.forEach( a => {
+                    a.classList.remove('active');
+                    const href = a.getAttribute('href').substring(1);
+                    if(href === current){
+                        a.classList.add('active');
+                    }
+                });
+            });
+
+            // Form submission alert
+            const contactForm = document.getElementById('contactForm');
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('SYSTEM MESSAGE: Transmission received. Awaiting response.');
+                contactForm.reset();
+            });
+            
+            // Set initial language based on browser preference
+            const userLang = navigator.language || navigator.userLanguage;
+            let initialLang = 'en';
+            if (userLang.startsWith('pt')) initialLang = 'pt';
+            else if (userLang.startsWith('es')) initialLang = 'es';
+            else if (userLang.startsWith('ru')) initialLang = 'ru';
+            else if (userLang.startsWith('ar')) initialLang = 'ar';
+            else if (userLang.startsWith('ja')) initialLang = 'ja';
+            
+            setLanguage(initialLang);
+        });
+    </script>
+</body>
+</html>
