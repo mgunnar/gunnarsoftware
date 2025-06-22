@@ -99,6 +99,13 @@
             position: relative;
             background: rgba(13, 13, 26, 0.5);
             animation: pulse-glow 4s infinite ease-in-out;
+            transition: border-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+        }
+        
+        /* MODIFICATION: Highlight for active section on scroll */
+        .hud-border.active-section {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 20px var(--primary-color);
         }
 
         .hud-border::before, .hud-border::after {
@@ -365,7 +372,6 @@
             50% { opacity: 0; }
         }
 
-        /* MODIFICATION: Reveal animation on scroll */
         .reveal {
             opacity: 0;
             transform: translateY(20px);
@@ -382,7 +388,6 @@
                 gap: 1.5rem;
             }
             .logo {
-                /* MODIFICATION: Ensure logo centers on mobile */
                 width: 100%;
                 justify-content: center;
             }
@@ -424,7 +429,6 @@
     </header>
 
     <div class="container">
-        <!-- MODIFICATION: Added 'reveal' class to sections for animation -->
         <nav class="hud-border reveal">
              <ul>
                 <li><a href="#about" class="active" data-key="nav_who">01_WHO_AM_I</a></li>
@@ -716,7 +720,6 @@
         const cursorSpan = document.querySelector(".typing-cursor");
 
         function setLanguage(lang) {
-            // MODIFICATION: Store scroll position before changing language
             const scrollY = window.pageYOffset;
 
             document.querySelectorAll('[data-key]').forEach(elem => {
@@ -744,8 +747,10 @@
             cursorSpan.classList.remove("typing");
             type(); 
 
-            // MODIFICATION: Restore scroll position after changing language
-            window.scrollTo(0, scrollY);
+            // Use requestAnimationFrame for smoother scroll restoration
+            requestAnimationFrame(() => {
+                window.scrollTo({ top: scrollY, behavior: 'instant' });
+            });
         }
 
         function type() {
@@ -787,8 +792,10 @@
             ];
             let faviconIndex = 0;
             setInterval(() => {
-                faviconLink.href = favicons[faviconIndex];
-                faviconIndex = (faviconIndex + 1) % favicons.length;
+                if(faviconLink) {
+                   faviconLink.href = favicons[faviconIndex];
+                   faviconIndex = (faviconIndex + 1) % favicons.length;
+                }
             }, 2000);
 
             const shareBtn = document.getElementById('whatsapp-share-icon');
@@ -797,24 +804,31 @@
                 const shareText = encodeURIComponent(translations[currentLang].whatsapp_share_text + window.location.href);
                 window.open(`https://api.whatsapp.com/send?text=${shareText}`, '_blank');
             });
-
-            const sections = document.querySelectorAll('section');
+            
+            const sections = document.querySelectorAll('section.hud-border');
             const navLinks = document.querySelectorAll('nav a');
+
             window.addEventListener('scroll', ()=> {
-                let current = 'hero';
-                sections.forEach( section => {
-                    const sectionTop = section.offsetTop;
-                    // Adjusted offset for fixed header
-                    if(pageYOffset >= sectionTop - 100){
-                        current = section.getAttribute('id');
+                let currentId = '';
+                const headerOffset = 150; // Offset for the fixed header
+
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop - headerOffset;
+                    if (window.pageYOffset >= sectionTop) {
+                        currentId = section.getAttribute('id');
                     }
                 });
 
-                navLinks.forEach( a => {
-                    a.classList.remove('active');
-                    const href = a.getAttribute('href').substring(1);
-                    if(href === current){
+                // Highlight active section and nav link
+                navLinks.forEach(a => {
+                    const sectionId = a.getAttribute('href').substring(1);
+                    const section = document.getElementById(sectionId);
+                    if (sectionId === currentId) {
                         a.classList.add('active');
+                        if (section) section.classList.add('active-section');
+                    } else {
+                        a.classList.remove('active');
+                         if (section) section.classList.remove('active-section');
                     }
                 });
             });
@@ -834,7 +848,7 @@
             });
             
             const userLang = navigator.language || navigator.userLanguage;
-            let initialLang = 'pt'; // Default to Portuguese
+            let initialLang = 'pt';
             if (userLang.startsWith('en')) initialLang = 'en';
             else if (userLang.startsWith('es')) initialLang = 'es';
             else if (userLang.startsWith('fr')) initialLang = 'fr';
