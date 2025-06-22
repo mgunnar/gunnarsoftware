@@ -4,10 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- MODIFICATION: Page title updated -->
     <title>Gunnar Software</title>
     
-    <!-- MODIFICATION: Meta tags for social media sharing (WhatsApp, etc.) -->
     <meta name="description" content="Portfólio de Matheus Gunnar, especialista em desenvolvimento de software embarcado e sistemas web.">
     <meta property="og:title" content="Gunnar Software">
     <meta property="og:description" content="Gunnar Software: Desenvolvimento de software embarcado e sistemas web.">
@@ -15,14 +13,15 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
-    <!-- Flag Icon CSS Library -->
+    <!-- Fontes utilizadas na página -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <!-- Biblioteca de Ícones de Bandeira -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/css/flag-icons.min.css"/>
     <style>
-        /* CSS - STYLING */
+        /* CSS - ESTILIZAÇÃO */
         :root {
-            --primary-color: #00ff41; /* Bright Green */
-            --background-color: #0d0d1a; /* Very Dark Blue */
+            --primary-color: #00ff41; /* Verde Brilhante */
+            --background-color: #0d0d1a; /* Azul Muito Escuro */
             --hud-frame-color: #3a3a5e;
             --text-color: #d0d0ff;
             --scanline-opacity: 0.04;
@@ -112,11 +111,23 @@
             margin-bottom: 2rem;
         }
 
+        /* Estilização do Logo */
         .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
             color: var(--primary-color);
+        }
+        .logo svg {
+            height: 40px;
+            width: auto;
+            max-width: 300px;
+        }
+        .logo-terminal {
+            font-family: 'VT323', monospace;
+            fill: var(--primary-color);
+            font-size: 28px;
             text-shadow: 0 0 5px var(--primary-color);
+        }
+        .blinking-cursor {
+            animation: blink 1s step-end infinite;
         }
         
         .lang-switcher {
@@ -289,14 +300,17 @@
         }
 
         @keyframes blink {
-            from, to { background-color: transparent }
-            50% { background-color: var(--primary-color); }
+            from, to { opacity: 1; }
+            50% { opacity: 0; }
         }
         
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
                 gap: 1.5rem;
+            }
+            .logo svg {
+                max-width: 250px;
             }
             nav ul {
                 padding-left: 0;
@@ -314,7 +328,11 @@
 <body>
     
     <header>
-        <div class="logo">GUNNAR_SOFTWARE</div>
+        <div class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 40">
+                <text x="5" y="30" class="logo-terminal">> GUNNAR_SOFTWARE<tspan class="blinking-cursor">_</tspan></text>
+            </svg>
+        </div>
         <div class="lang-switcher">
             <a href="#" class="lang-link active" onclick="setLanguage('en')"><span class="fi fi-us"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('pt')"><span class="fi fi-br"></span></a>
@@ -449,7 +467,7 @@
                 about_title: "¿QUIÉN SOY?",
                 about_p: "Soy un desarrollador de software que prospera navegando en entornos que cambian rápidamente y colaborando en equipos dinámicos. Mi misión es diseñar soluciones de software robustas, transformando complejos desafíos de desarrollo web en experiencias de usuario fluidas e impactantes.",
                 caps_title: "Capacidades Centrales",
-                caps_p1: "Especializado en Backend y Software Embebido, diseño soluciones robustas combinando formación avanzada con experiencia práctica. Mi arsenal principal incluye <b>Java, Spring Boot, Node.js, C y .NET</b>, con un historial probado en el desarrollo y migración de microservicios para el sector financiero y en la ejecución del ciclo de vida completo de desarrollo bajo metodologías ágiles.",
+                caps_p1: "Especializado en Backend y Software Embebido, diseño soluciones robustas combinando formación avanzada con experiencia práctica. Mi arsenal principal incluye <b>Java, Spring Boot, Node.js, C y .NET</b>, con un historial probado en el desarrollo y migración de microservicios para el sector financiero y en la ejecución del ciclo de vida completo de desarrollo bajo metodologias ágiles.",
                 caps_p2: "Esta experiencia práctica se ve reforzada por una licenciatura en <b>Análisis de Sistemas</b> y actualmente se está elevando a través de una especialización en <b>Software Embebido</b> para la industria aeronáutica con Embraer y CIn/UFPE.",
                 caps_p3: "Para un resumen completo de mi trayectoria profesional y experiencia detallada, mi perfil de <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> sirve como el registro principal.",
                 contact_title: "Envíame un mensaje",
