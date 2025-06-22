@@ -11,10 +11,13 @@
     <meta property="og:description" content="Gunnar Software: Desenvolvimento de software embarcado e sistemas web.">
     <meta property="og:type" content="website">
 
+    <!-- MODIFICATION: Placeholder for the dynamic favicon -->
+    <link id="favicon" rel="icon" href="">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- MODIFICATION: Fontes atualizadas para um visual mais moderno -->
-    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
+    <!-- Fontes utilizadas na página -->
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     <!-- Biblioteca de Ícones de Bandeira -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/css/flag-icons.min.css"/>
     <style>
@@ -37,9 +40,8 @@
             scroll-behavior: smooth;
         }
 
-        /* MODIFICATION: Fonte principal do corpo alterada */
         body {
-            font-family: 'Share Tech Mono', monospace;
+            font-family: 'Fira Code', monospace;
             background-color: var(--background-color);
             color: var(--text-color);
             font-size: 16px;
@@ -284,7 +286,7 @@
             color: var(--text-color);
             padding: 10px;
             margin-bottom: 1rem;
-            font-family: 'Share Tech Mono', monospace;
+            font-family: 'Fira Code', monospace;
         }
 
         .contact-form input:focus, .contact-form textarea:focus {
@@ -483,7 +485,7 @@
             <h2 data-key="contact_title">Send me a message</h2>
             <p data-key="contact_p">Have a project or an opportunity? Get in touch.</p>
             
-            <form class="contact-form" action="https://formspree.io/f/xovwnzzv" method="POST">
+            <form class="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID_HERE" method="POST">
                 <input type="text" name="name" data-key="form_name_placeholder" placeholder="CALLSIGN // YOUR NAME" required>
                 <input type="email" name="_replyto" data-key="form_email_placeholder" placeholder="COMM_CHANNEL // YOUR EMAIL" required>
                 <textarea name="message" rows="5" data-key="form_message_placeholder" placeholder="MESSAGE..." required></textarea>
@@ -758,7 +760,8 @@
                 let current = 'hero';
                 sections.forEach( section => {
                     const sectionTop = section.offsetTop;
-                    if(pageYOffset >= sectionTop - 200){
+                    // Adjusted offset for fixed header
+                    if(pageYOffset >= sectionTop - 100){
                         current = section.getAttribute('id');
                     }
                 });
