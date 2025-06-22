@@ -383,12 +383,12 @@
             </svg>
         </div>
         <div class="lang-switcher">
-            <a href="#" class="lang-link active" onclick="setLanguage('en')"><span class="fi fi-us"></span></a>
-            <a href="#" class="lang-link" onclick="setLanguage('pt')"><span class="fi fi-br"></span></a>
+            <a href="#" class="lang-link active" onclick="setLanguage('pt')"><span class="fi fi-br"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('en')"><span class="fi fi-us"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('es')"><span class="fi fi-es"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('fr')"><span class="fi fi-fr"></span></a>
-            <a href="#" class="lang-link" onclick="setLanguage('ja')"><span class="fi fi-jp"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('zh')"><span class="fi fi-cn"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('ja')"><span class="fi fi-jp"></span></a>
         </div>
     </header>
 
@@ -695,12 +695,6 @@
                 }
             });
             
-            if (lang === 'ar') {
-                document.documentElement.setAttribute('dir', 'rtl');
-            } else {
-                document.documentElement.setAttribute('dir', 'ltr');
-            }
-            
             document.documentElement.lang = lang;
             currentLang = lang;
             
@@ -747,6 +741,18 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
+            // Animated Favicon Logic
+            const faviconLink = document.getElementById('favicon');
+            const favicons = [
+                'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><path fill=%22none%22 stroke=%22%2300ff41%22 stroke-width=%222%22 d=%22M1 8 C1 8 5 2 8 2 C11 2 15 8 15 8 C15 8 11 14 8 14 C5 14 1 8 1 8z%22 /><circle cx=%228%22 cy=%228%22 r=%222%22 fill=%22%2300ff41%22/></svg>',
+                'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect width=%2216%22 height=%224%22 y=%226%22 fill=%22%2300ff41%22/></svg>'
+            ];
+            let faviconIndex = 0;
+            setInterval(() => {
+                faviconLink.href = favicons[faviconIndex];
+                faviconIndex = (faviconIndex + 1) % favicons.length;
+            }, 2000); // Change every 2 seconds
+
             const shareBtn = document.getElementById('whatsapp-share-icon');
             shareBtn.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -776,8 +782,8 @@
             });
             
             const userLang = navigator.language || navigator.userLanguage;
-            let initialLang = 'en';
-            if (userLang.startsWith('pt')) initialLang = 'pt';
+            let initialLang = 'pt'; // Default to Portuguese
+            if (userLang.startsWith('en')) initialLang = 'en';
             else if (userLang.startsWith('es')) initialLang = 'es';
             else if (userLang.startsWith('fr')) initialLang = 'fr';
             else if (userLang.startsWith('ja')) initialLang = 'ja';
@@ -785,6 +791,17 @@
             
             setLanguage(initialLang);
         });
+        // Lógica do Favicon Animado
+const faviconLink = document.getElementById('favicon');
+const favicons = [
+    'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><path fill=%22none%22 stroke=%22%2300ff41%22 stroke-width=%222%22 d=%22M1 8 C1 8 5 2 8 2 C11 2 15 8 15 8 C15 8 11 14 8 14 C5 14 1 8 1 8z%22 /><circle cx=%228%22 cy=%228%22 r=%222%22 fill=%22%2300ff41%22/></svg>',
+    'data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22><rect width=%2216%22 height=%224%22 y=%226%22 fill=%22%2300ff41%22/></svg>'
+];
+let faviconIndex = 0;
+setInterval(() => {
+    faviconLink.href = favicons[faviconIndex];
+    faviconIndex = (faviconIndex + 1) % favicons.length;
+}, 2000); // Muda a cada 2 segundos
     </script>
 </body>
 </html>
