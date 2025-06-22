@@ -13,18 +13,18 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <!-- Fontes utilizadas na página -->
-    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=VT323&display=swap" rel="stylesheet">
+    <!-- MODIFICATION: Fontes atualizadas para um visual mais moderno -->
+    <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=VT323&display=swap" rel="stylesheet">
     <!-- Biblioteca de Ícones de Bandeira -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7/css/flag-icons.min.css"/>
     <style>
         /* CSS - ESTILIZAÇÃO */
         :root {
             --primary-color: #00ff41; /* Verde Brilhante */
-            --background-color: #0d0d1a; /* Azul Muito Escuro */
+            --background-color: #080810; 
             --hud-frame-color: #3a3a5e;
             --text-color: #d0d0ff;
-            --scanline-opacity: 0.04;
+            --scanline-opacity: 0.06;
         }
 
         * {
@@ -37,8 +37,9 @@
             scroll-behavior: smooth;
         }
 
+        /* MODIFICATION: Fonte principal do corpo alterada */
         body {
-            font-family: 'Fira Code', monospace;
+            font-family: 'Share Tech Mono', monospace;
             background-color: var(--background-color);
             color: var(--text-color);
             font-size: 16px;
@@ -109,9 +110,13 @@
             padding: 1rem 1.5rem;
             border-bottom: 2px solid var(--hud-frame-color);
             margin-bottom: 2rem;
+            position: sticky;
+            top: 0;
+            background-color: rgba(8, 8, 16, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 999;
         }
 
-        /* Estilização do Logo */
         .logo {
             color: var(--primary-color);
         }
@@ -194,20 +199,32 @@
         .hero {
             text-align: center;
             min-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
         
         .hero h1 {
             font-size: 2.5rem;
             margin-top: 1rem;
         }
+        
+        .typing-container {
+            font-size: 1.5rem;
+            height: 2.5rem; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
         .typing-cursor {
             display: inline-block;
             background-color: var(--primary-color);
             width: 10px;
-            height: 2.5rem;
+            height: 2.2rem;
             animation: blink 1s step-end infinite;
             box-shadow: 0 0 5px var(--primary-color);
+            margin-left: 5px;
         }
 
         .hero p {
@@ -216,6 +233,29 @@
             margin: 1rem auto;
         }
         
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+        .skills-category h3 {
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--hud-frame-color);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .skills-category ul {
+            list-style: none;
+            padding: 0;
+        }
+         .skills-category li {
+            margin-bottom: 0.5rem;
+         }
+        .skills-category li::before {
+            content: '+ ';
+            color: var(--primary-color);
+        }
+
         .cta-button {
             display: inline-block;
             background: transparent;
@@ -244,13 +284,18 @@
             color: var(--text-color);
             padding: 10px;
             margin-bottom: 1rem;
-            font-family: 'Fira Code', monospace;
+            font-family: 'Share Tech Mono', monospace;
         }
 
         .contact-form input:focus, .contact-form textarea:focus {
             outline: none;
             border-color: var(--primary-color);
             box-shadow: 0 0 8px var(--primary-color);
+        }
+
+        .contact-form input:invalid, .contact-form textarea:invalid {
+            box-shadow: 0 0 8px #ff0000;
+            border-color: #ff0000;
         }
 
         .contact-form button {
@@ -266,29 +311,28 @@
         }
         
         .social-links {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
             margin-bottom: 1.5rem;
         }
         .social-links a {
             color: var(--primary-color);
             text-decoration: none;
-            margin: 0 10px;
             font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        .social-links a:hover {
+            transform: scale(1.1);
         }
         
-        .footer-stats {
-            margin-top: 1.5rem;
-            color: var(--primary-color);
-            text-transform: uppercase;
+        .social-links svg {
+            width: 28px;
+            height: 28px;
+            fill: currentColor;
         }
-        #visitor-count {
-            font-weight: bold;
-            text-shadow: 0 0 5px var(--primary-color);
-        }
-        #whatsapp-share-btn {
-            margin-top: 1rem;
-            font-size: 1rem;
-        }
-
+       
         @keyframes subtle-flicker {
             0%, 100% { opacity: 1; }
             50% { opacity: 0.98; }
@@ -321,6 +365,9 @@
             .hero h1 {
                 font-size: 2rem;
             }
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
     </style>
@@ -338,7 +385,6 @@
             <a href="#" class="lang-link" onclick="setLanguage('pt')"><span class="fi fi-br"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('es')"><span class="fi fi-es"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('fr')"><span class="fi fi-fr"></span></a>
-            <a href="#" class="lang-link" onclick="setLanguage('ar')"><span class="fi fi-sa"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('ja')"><span class="fi fi-jp"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('zh')"><span class="fi fi-cn"></span></a>
         </div>
@@ -348,16 +394,19 @@
         <nav class="hud-border">
              <ul>
                 <li><a href="#about" class="active" data-key="nav_who">01_WHO_AM_I</a></li>
-                <li><a href="#capabilities" data-key="nav_caps">02_CAPABILITIES</a></li>
-                <li><a href="#contact" data-key="nav_comms">03_COMMS</a></li>
+                <li><a href="#summary" data-key="nav_summary">02_SUMMARY</a></li>
+                <li><a href="#skills" data-key="nav_skills">03_SKILLS</a></li>
+                <li><a href="#contact" data-key="nav_comms">04_COMMS</a></li>
             </ul>
         </nav>
 
         <section id="hero" class="hero hud-border">
             <h1>Matheus Gunnar</h1>
-            <p><span data-key="hero_iam">I'm a</span> <span class="typed-text"></span><span class="typing-cursor">&nbsp;</span></p>
-            <p data-key="hero_tagline">Building versatile and resilient digital solutions, bridging robust, high-level Java architecture with the low-level efficiency of C for embedded systems.</p>
-            <a href="#capabilities" class="cta-button" data-key="hero_cta">[ VIEW CAPABILITIES ]</a>
+            <div class="typing-container">
+                <span class="typed-text"></span><span class="typing-cursor"></span>
+            </div>
+            <p data-key="hero_tagline">From architecture to firmware: building robust digital solutions that connect high-level strategic vision to efficient hardware implementation.</p>
+            <a href="#skills" class="cta-button" data-key="hero_cta">[ VIEW SKILLS ]</a>
             <div class="corner-bottom-left"></div>
             <div class="corner-bottom-right"></div>
         </section>
@@ -365,37 +414,80 @@
         <section id="about" class="hud-border">
             <h2 data-key="about_title">WHO AM I?</h2>
             <p data-key="about_p">
-                I am a software developer who thrives on navigating rapidly changing environments and collaborating within dynamic teams. My mission is to engineer robust software solutions, transforming complex web development challenges into seamless and impactful user experiences.
+                 I am a software developer who excels in rapidly changing environments and collaborating within dynamic teams. My focus is on designing and building end-to-end software solutions, translating complex development challenges, whether on the web or in embedded systems, into seamless and efficient user experiences.
             </p>
             <div class="corner-bottom-left"></div>
             <div class="corner-bottom-right"></div>
         </section>
 
-        <section id="capabilities" class="hud-border">
-            <h2 data-key="caps_title">Core Capabilities</h2>
-            <p data-key="caps_p1">
-                Specializing in Backend and Embedded Software, I engineer robust solutions by combining advanced training with hands-on experience. My core arsenal includes <b>Java, Spring Boot, Node.js, C, and .NET</b>, with a proven flight log in developing and migrating microservices for the financial sector and executing the full development lifecycle under Agile methodologies.
+        <section id="summary" class="hud-border">
+            <h2 data-key="summary_title">Professional Summary & Education</h2>
+            <p data-key="summary_p1">
+                With hands-on experience across the entire software lifecycle, I have been responsible for creating new features and fixing bugs in Java APIs for the financial sector. I have proven experience in migrating systems to a microservices architecture with Java 8 and 17, and in development with Node.js and React.js. My work includes creating unit, integration, and end-to-end tests, as well as optimizing scripts for Oracle and SQL Server databases.
             </p>
-            <p data-key="caps_p2">
-                This practical experience is reinforced by a degree in <b>Systems Analysis</b> and is currently being elevated through a specialization in <b>Embedded Software</b> for the aeronautical industry with Embraer and CIn/UFPE.
-            </p>
-            <p data-key="caps_p3">
-                For a comprehensive overview of my professional background and detailed experience, my <a href="https://www.linkedin.com/in/matheusgunnar" target="_blank" style="color: var(--primary-color);">LinkedIn</a> profile serves as the primary record.
+            <p data-key="summary_p2">
+                I participated in the StartDB training program, where I enhanced my knowledge of Typescript and agile methodologies. My fluency in English was consolidated by working on an international team with members of various nationalities. My academic journey began with a Technical Course in Informatics (IFRS), evolved to a Bachelor's degree in Law, which sharpened my analytical and critical thinking skills, and culminated in a degree in Systems Analysis and Development, followed by postgraduate studies in Software Engineering and Software for the Aeronautical Industry at CIn/UFPE.
             </p>
             <div class="corner-bottom-left"></div>
             <div class="corner-bottom-right"></div>
         </section>
 
+        <section id="skills" class="hud-border">
+            <h2 data-key="skills_title">Skills</h2>
+            <div class="skills-grid">
+                <div class="skills-category">
+                    <h3 data-key="skills_cat_lang">Languages</h3>
+                    <ul data-key="skills_list_lang">
+                        <li>Java (Advanced)</li>
+                        <li>Javascript/Typescript (Intermediate)</li>
+                        <li>SQL (Intermediate)</li>
+                        <li>PHP (Intermediate)</li>
+                        <li>C Language (Intermediate)</li>
+                        <li>Python (Basic)</li>
+                        <li>Ruby (Basic)</li>
+                        <li>VHDL (Basic)</li>
+                    </ul>
+                </div>
+                <div class="skills-category">
+                    <h3 data-key="skills_cat_frameworks">Frameworks & Ecosystem</h3>
+                    <ul data-key="skills_list_frameworks">
+                        <li>Spring (Advanced)</li>
+                        <li>JPA</li>
+                        <li>JUnit, Mockito (Intermediate)</li>
+                        <li>React (Intermediate)</li>
+                        <li>Angular (Basic)</li>
+                    </ul>
+                </div>
+                <div class="skills-category">
+                    <h3 data-key="skills_cat_tools">Tools & Platforms</h3>
+                    <ul data-key="skills_list_tools">
+                        <li>Version Control: Git, Bitbucket, Azure Repos, GitHub, SVN</li>
+                        <li>Build & Management: Gradle, Maven, Jira, Azure DevOps</li>
+                        <li>Databases: Oracle PL/SQL, MS SQL Server, MongoDB</li>
+                    </ul>
+                </div>
+                 <div class="skills-category">
+                    <h3 data-key="skills_cat_methods">Methodologies & Practices</h3>
+                    <ul data-key="skills_list_methods">
+                        <li>Agile Methodologies</li>
+                        <li>Clean Code</li>
+                        <li>Requirements Specification</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="corner-bottom-left"></div>
+            <div class="corner-bottom-right"></div>
+        </section>
 
         <section id="contact" class="hud-border">
             <h2 data-key="contact_title">Send me a message</h2>
-            <p data-key="contact_p">Have a mission in mind or just want to connect? Open a secure channel.</p>
+            <p data-key="contact_p">Have a project or an opportunity? Get in touch.</p>
             
-            <form class="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID_HERE" method="POST">
+            <form class="contact-form" action="https://formspree.io/f/xovwnzzv" method="POST">
                 <input type="text" name="name" data-key="form_name_placeholder" placeholder="CALLSIGN // YOUR NAME" required>
                 <input type="email" name="_replyto" data-key="form_email_placeholder" placeholder="COMM_CHANNEL // YOUR EMAIL" required>
-                <textarea name="message" rows="5" data-key="form_message_placeholder" placeholder="TRANSMISSION..."></textarea>
-                <button type="submit" class="cta-button" data-key="form_button">[ SEND TRANSMISSION ]</button>
+                <textarea name="message" rows="5" data-key="form_message_placeholder" placeholder="MESSAGE..." required></textarea>
+                <button type="submit" class="cta-button" data-key="form_button">[ SEND ]</button>
             </form>
             <div class="corner-bottom-left"></div>
             <div class="corner-bottom-right"></div>
@@ -404,13 +496,15 @@
 
     <footer>
         <div class="social-links">
-            <a href="https://github.com/mgunnar/" target="_blank">GitHub</a>
-            <a href="https://www.linkedin.com/in/matheusgunnar" target="_blank">LinkedIn</a>
-        </div>
-        
-        <div class="footer-stats">
-            <div data-key="visitor_counter_label">SITE VISITORS: <span id="visitor-count"></span></div>
-            <a href="#" id="whatsapp-share-btn" class="cta-button" data-key="share_button_label">[ SHARE ON WHATSAPP ]</a>
+            <a href="https://github.com/mgunnar/" target="_blank" title="GitHub">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+            </a>
+            <a href="https://www.linkedin.com/in/matheusgunnar" target="_blank" title="LinkedIn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
+            </a>
+            <a href="#" id="whatsapp-share-icon" title="Share on WhatsApp">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path d="M380.9 97.1C339 55.1 283.2 32 223.9 32c-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480l117.7-30.9c32.4 17.7 68.9 27 106.1 27h.1c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157.1zM223.9 439.6c-35.2 0-69.2-9.2-99.4-26.9l-7.1-4.2-74.2 19.5 19.8-72.5-4.7-7.4c-18.4-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1 34.8 34.9 56.2 81.2 56.1 130.5 0 101.8-84.9 184.6-186.6 184.6zm101.2-138.2c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8-3.7 5.6-14.3 18-17.6 21.8-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7.9-6.9-.5-9.7-1.4-2.8-12.5-30.1-17.1-41.2-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2-3.7 0-9.7 1.4-14.8 6.9-5.1 5.6-19.4 19-19.4 46.3 0 27.3 19.9 53.7 22.6 57.4 2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4 4.6-13 4.6-24.1 3.2-26.4-1.3-2.5-5-3.9-10.5-6.6z"/></svg>
+            </a>
         </div>
         
         <p data-key="footer_copy">&copy; 2025 GUNNARSOFTWARE.COM :: ALL SYSTEMS NOMINAL</p>
@@ -420,155 +514,164 @@
         // --- TRANSLATION LOGIC ---
         const translations = {
             en: {
-                nav_who: "01_WHO_AM_I", nav_caps: "02_CAPABILITIES", nav_comms: "03_COMMS",
-                hero_iam: "I'm a",
-                hero_tagline: "Building versatile and resilient digital solutions, bridging robust, high-level Java architecture with the low-level efficiency of C for embedded systems.",
-                hero_cta: "[ VIEW CAPABILITIES ]",
+                nav_who: "01_WHO_AM_I", nav_summary: "02_SUMMARY", nav_skills: "03_SKILLS", nav_comms: "04_COMMS",
+                hero_tagline: "From architecture to firmware: building robust digital solutions that connect high-level strategic vision to efficient hardware implementation.",
+                hero_cta: "[ VIEW SKILLS ]",
                 about_title: "WHO AM I?",
-                about_p: "I am a software developer who thrives on navigating rapidly changing environments and collaborating within dynamic teams. My mission is to engineer robust software solutions, transforming complex web development challenges into seamless and impactful user experiences.",
-                caps_title: "Core Capabilities",
-                caps_p1: "Specializing in Backend and Embedded Software, I engineer robust solutions by combining advanced training with hands-on experience. My core arsenal includes <b>Java, Spring Boot, Node.js, C, and .NET</b>, with a proven flight log in developing and migrating microservices for the financial sector and executing the full development lifecycle under Agile methodologies.",
-                caps_p2: "This practical experience is reinforced by a degree in <b>Systems Analysis</b> and is currently being elevated through a specialization in <b>Embedded Software</b> for the aeronautical industry with Embraer and CIn/UFPE.",
-                caps_p3: "For a comprehensive overview of my professional background and detailed experience, my <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> profile serves as the primary record.",
+                about_p: "I am a software developer who excels in rapidly changing environments and collaborating within dynamic teams. My focus is on designing and building end-to-end software solutions, translating complex development challenges, whether on the web or in embedded systems, into seamless and efficient user experiences.",
+                summary_title: "Professional Summary & Education",
+                summary_p1: "With hands-on experience across the entire software lifecycle, I have been responsible for creating new features and fixing bugs in Java APIs for the financial sector. I have proven experience in migrating systems to a microservices architecture with Java 8 and 17, and in development with Node.js and React.js. My work includes creating unit, integration, and end-to-end tests, as well as optimizing scripts for Oracle and SQL Server databases.",
+                summary_p2: "I participated in the StartDB training program, where I enhanced my knowledge of Typescript and agile methodologies. My fluency in English was consolidated by working on an international team with members of various nationalities. My academic journey began with a Technical Course in Informatics (IFRS), evolved to a Bachelor's degree in Law, which sharpened my analytical and critical thinking skills, and culminated in a degree in Systems Analysis and Development, followed by postgraduate studies in Software Engineering and Software for the Aeronautical Industry at CIn/UFPE.",
+                skills_title: "Skills",
+                skills_cat_lang: "Languages",
+                skills_list_lang: "<li>Java (Advanced)</li><li>Javascript/Typescript (Intermediate)</li><li>SQL (Intermediate)</li><li>PHP (Intermediate)</li><li>C Language (Intermediate)</li><li>Python (Basic)</li><li>Ruby (Basic)</li><li>VHDL (Basic)</li>",
+                skills_cat_frameworks: "Frameworks & Ecosystem",
+                skills_list_frameworks: "<li>Spring (Advanced)</li><li>JPA</li><li>JUnit, Mockito (Intermediate)</li><li>React (Intermediate)</li><li>Angular (Basic)</li>",
+                skills_cat_tools: "Tools & Platforms",
+                skills_list_tools: "<li>Version Control: Git, Bitbucket, Azure Repos, GitHub, SVN</li><li>Build & Management: Gradle, Maven, Jira, Azure DevOps</li><li>Databases: Oracle PL/SQL, MS SQL Server, MongoDB</li>",
+                skills_cat_methods: "Methodologies & Practices",
+                skills_list_methods: "<li>Agile Methodologies</li><li>Clean Code</li><li>Requirements Specification</li>",
                 contact_title: "Send me a message",
-                contact_p: "Have a mission in mind or just want to connect? Open a secure channel.",
-                form_name_placeholder: "CALLSIGN // YOUR NAME", form_email_placeholder: "COMM_CHANNEL // YOUR EMAIL", form_message_placeholder: "TRANSMISSION...",
-                form_button: "[ SEND TRANSMISSION ]",
-                visitor_counter_label: "SITE VISITORS: <span id='visitor-count'></span>",
-                share_button_label: "[ SHARE ON WHATSAPP ]",
+                contact_p: "Have a project or an opportunity? Get in touch.",
+                form_name_placeholder: "CALLSIGN // YOUR NAME", form_email_placeholder: "COMM_CHANNEL // YOUR EMAIL", form_message_placeholder: "MESSAGE...",
+                form_button: "[ SEND ]",
                 whatsapp_share_text: "Check out the portfolio of Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: ALL SYSTEMS NOMINAL"
             },
             pt: {
-                nav_who: "01_QUEM_SOU_EU", nav_caps: "02_CAPACIDADES", nav_comms: "03_CONTATO",
-                hero_iam: "Eu sou",
-                hero_tagline: "Construindo soluções digitais versáteis e resilientes, unindo a robustez da arquitetura Java de alto nível com a eficiência de baixo nível do C para sistemas embarcados.",
-                hero_cta: "[ VER CAPACIDADES ]",
+                nav_who: "01_QUEM_SOU_EU", nav_summary: "02_RESUMO", nav_skills: "03_HABILIDADES", nav_comms: "04_CONTATO",
+                hero_tagline: "Da arquitetura ao firmware: construindo soluções digitais robustas que conectam a visão estratégica de alto nível à implementação eficiente em hardware.",
+                hero_cta: "[ VER HABILIDADES ]",
                 about_title: "QUEM SOU EU?",
-                about_p: "Sou um desenvolvedor de software que prospera ao navegar em ambientes que mudam rapidamente e ao colaborar com equipes dinâmicas. Minha missão é projetar soluções de software robustas, transformando desafios complexos de desenvolvimento web em experiências de usuário fluidas e impactantes.",
-                caps_title: "Capacidades Essenciais",
-                caps_p1: "Especialista em Backend e Software Embarcado, projeto soluções robustas combinando treinamento avançado com experiência prática. Meu arsenal principal inclui <b>Java, Spring Boot, Node.js, C e .NET</b>, com um histórico comprovado no desenvolvimento e migração de microsserviços para o setor financeiro e na execução do ciclo de vida completo de desenvolvimento sob metodologias ágeis.",
-                caps_p2: "Essa experiência prática é reforçada por uma graduação em <b>Análise de Sistemas</b> e atualmente está sendo elevada por meio de uma especialização em <b>Software Embarcado</b> para a indústria aeronáutica com a Embraer e o CIn/UFPE.",
-                caps_p3: "Para uma visão abrangente do meu histórico profissional e experiência detalhada, meu perfil no <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> serve como o registro principal.",
+                about_p: "Sou um desenvolvedor de software que se destaca em ambientes dinâmicos e colaborando com equipes que mudam rapidamente. Meu foco é projetar e construir soluções de software de ponta a ponta, traduzindo desafios complexos de desenvolvimento, seja na web ou em sistemas embarcados, em experiências de usuário fluidas e eficientes.",
+                summary_title: "Resumo Profissional e Formação",
+                summary_p1: "Com experiência prática em todo o ciclo de vida de software, fui responsável por criar novos recursos e corrigir bugs em APIs Java para o setor financeiro. Tenho vivência comprovada na migração de sistemas para uma arquitetura de microsserviços com Java 8 e 17, e no desenvolvimento com Node.js e React.js. Minha atuação inclui a criação de testes unitários, de integração e end-to-end, além da otimização de scripts para bancos de dados Oracle e SQL Server.",
+                summary_p2: "Participei do programa de formação StartDB, onde aprimorei meus conhecimentos em Typescript e metodologias ágeis. Minha fluência em inglês foi consolidada ao trabalhar em uma equipe internacional com membros de diversas nacionalidades. A minha formação começou com um Curso Técnico em Informática (IFRS), evoluiu para um Bacharel em Direito, que aprimorou minha capacidade analítica e de pensamento crítico, e culminou em uma Graduação em Análise e Desenvolvimento de Sistemas, seguida por Pós-Graduações em Engenharia de Software e em Software para a Indústria Aeronáutica pelo CIn/UFPE.",
+                skills_title: "Habilidades",
+                skills_cat_lang: "Linguagens",
+                skills_list_lang: "<li>Java (Avançado)</li><li>Javascript/Typescript (Intermediário)</li><li>SQL (Intermediário)</li><li>PHP (Intermediário)</li><li>Linguagem C (Intermediário)</li><li>Python (Básico)</li><li>Ruby (Básico)</li><li>VHDL (Básico)</li>",
+                skills_cat_frameworks: "Frameworks e Ecossistema",
+                skills_list_frameworks: "<li>Spring (Avançado)</li><li>JPA</li><li>JUnit, Mockito (Intermediário)</li><li>React (Intermediário)</li><li>Angular (Básico)</li>",
+                skills_cat_tools: "Ferramentas e Plataformas",
+                skills_list_tools: "<li>Controle de Versão: Git, Bitbucket, Azure Repos, GitHub, SVN</li><li>Build & Gerenciamento: Gradle, Maven, Jira, Azure DevOps</li><li>Bancos de Dados: Oracle PL/SQL, MS SQL Server, MongoDB</li>",
+                skills_cat_methods: "Metodologias e Práticas",
+                skills_list_methods: "<li>Metodologias Ágeis</li><li>Clean Code</li><li>Especificação de Requisitos</li>",
                 contact_title: "Envie-me uma mensagem",
-                contact_p: "Tem uma missão em mente ou só quer se conectar? Abra um canal seguro.",
-                form_name_placeholder: "IDENTIFICAÇÃO // SEU NOME", form_email_placeholder: "CANAL_COMMS // SEU EMAIL", form_message_placeholder: "TRANSMISSÃO...",
-                form_button: "[ ENVIAR TRANSMISSÃO ]",
-                visitor_counter_label: "VISITANTES DO SITE: <span id='visitor-count'></span>",
-                share_button_label: "[ COMPARTILHAR NO WHATSAPP ]",
+                contact_p: "Tem um projeto ou uma oportunidade? Entre em contato.",
+                form_name_placeholder: "IDENTIFICAÇÃO // SEU NOME", form_email_placeholder: "CANAL_COMMS // SEU EMAIL", form_message_placeholder: "MENSAGEM...",
+                form_button: "[ ENVIAR ]",
                 whatsapp_share_text: "Confira o portfólio da Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TODOS OS SISTEMAS NOMINAIS"
             },
             es: {
-                nav_who: "01_QUIÉN_SOY", nav_caps: "02_CAPACIDADES", nav_comms: "03_CONTACTO",
-                hero_iam: "Soy un",
-                hero_tagline: "Construyendo soluciones digitales versátiles y resilientes, uniendo la robusta arquitectura Java de alto nivel con la eficiencia de bajo nivel de C para sistemas embebidos.",
-                hero_cta: "[ VER CAPACIDADES ]",
+                nav_who: "01_QUIÉN_SOY", nav_summary: "02_RESUMEN", nav_skills: "03_HABILIDADES", nav_comms: "04_CONTACTO",
+                hero_tagline: "De la arquitectura al firmware: construyendo soluciones digitales robustas que conectan la visión estratégica de alto nivel con la implementación eficiente en hardware.",
+                hero_cta: "[ VER HABILIDADES ]",
                 about_title: "¿QUIÉN SOY?",
-                about_p: "Soy un desarrollador de software que prospera navegando en entornos que cambian rápidamente y colaborando en equipos dinámicos. Mi misión es diseñar soluciones de software robustas, transformando complejos desafíos de desarrollo web en experiencias de usuario fluidas e impactantes.",
-                caps_title: "Capacidades Centrales",
-                caps_p1: "Especializado en Backend y Software Embebido, diseño soluciones robustas combinando formación avanzada con experiencia práctica. Mi arsenal principal incluye <b>Java, Spring Boot, Node.js, C y .NET</b>, con un historial probado en el desarrollo y migración de microservicios para el sector financiero y en la ejecución del ciclo de vida completo de desarrollo bajo metodologias ágiles.",
-                caps_p2: "Esta experiencia práctica se ve reforzada por una licenciatura en <b>Análisis de Sistemas</b> y actualmente se está elevando a través de una especialización en <b>Software Embebido</b> para la industria aeronáutica con Embraer y CIn/UFPE.",
-                caps_p3: "Para un resumen completo de mi trayectoria profesional y experiencia detallada, mi perfil de <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> sirve como el registro principal.",
+                about_p: "Soy un desarrollador de software que se destaca en entornos que cambian rápidamente y colaborando en equipos dinámicos. Mi enfoque es diseñar y construir soluciones de software de extremo a extremo, traduciendo desafíos complejos de desarrollo, ya sea en la web o en sistemas embebidos, en experiencias de usuario fluidas y eficientes.",
+                summary_title: "Resumen Profesional y Formación",
+                summary_p1: "Con experiencia práctica en todo el ciclo de vida del software, he sido responsable de crear nuevas características y corregir errores en APIs de Java para el sector financiero. Tengo experiencia comprobada en la migración de sistemas a una arquitectura de microservicios con Java 8 y 17, y en el desarrollo con Node.js y React.js. Mi trabajo incluye la creación de pruebas unitarias, de integración y de extremo a extremo, así como la optimización de scripts para bases de datos Oracle y SQL Server.",
+                summary_p2: "Participé en el programa de formación StartDB, donde mejoré mis conocimientos de Typescript y metodologías ágiles. Mi fluidez en inglés se consolidó trabajando en un equipo internacional con miembros de diversas nacionalidades. Mi trayectoria académica comenzó con un Curso Técnico en Informática (IFRS), evolucionó a una Licenciatura en Derecho, que agudizó mis habilidades analíticas y de pensamiento crítico, y culminó con una Licenciatura en Análisis y Desarrollo de Sistemas, seguida de posgrados en Ingeniería de Software y Software para la Industria Aeronáutica en el CIn/UFPE.",
+                skills_title: "Habilidades",
+                skills_cat_lang: "Lenguajes",
+                skills_list_lang: "<li>Java (Avanzado)</li><li>Javascript/Typescript (Intermedio)</li><li>SQL (Intermedio)</li><li>PHP (Intermedio)</li><li>Lenguaje C (Intermedio)</li><li>Python (Básico)</li><li>Ruby (Básico)</li><li>VHDL (Básico)</li>",
+                skills_cat_frameworks: "Frameworks y Ecosistema",
+                skills_list_frameworks: "<li>Spring (Avanzado)</li><li>JPA</li><li>JUnit, Mockito (Intermedio)</li><li>React (Intermedio)</li><li>Angular (Básico)</li>",
+                skills_cat_tools: "Herramientas y Plataformas",
+                skills_list_tools: "<li>Control de Versiones: Git, Bitbucket, Azure Repos, GitHub, SVN</li><li>Build y Gestión: Gradle, Maven, Jira, Azure DevOps</li><li>Bases de Datos: Oracle PL/SQL, MS SQL Server, MongoDB</li>",
+                skills_cat_methods: "Metodologías y Prácticas",
+                skills_list_methods: "<li>Metodologías Ágiles</li><li>Clean Code</li><li>Especificación de Requisitos</li>",
                 contact_title: "Envíame un mensaje",
-                contact_p: "¿Tienes una misión en mente o solo quieres conectar? Abre un canal seguro.",
-                form_name_placeholder: "SEÑAL // TU NOMBRE", form_email_placeholder: "CANAL_COMMS // TU EMAIL", form_message_placeholder: "TRANSMISIÓN...",
-                form_button: "[ ENVIAR TRANSMISIÓN ]",
-                visitor_counter_label: "VISITANTES DEL SITIO: <span id='visitor-count'></span>",
-                share_button_label: "[ COMPARTIR EN WHATSAPP ]",
+                contact_p: "¿Tienes un proyecto o una oportunidad? Ponte en contacto.",
+                form_name_placeholder: "SEÑAL // TU NOMBRE", form_email_placeholder: "CANAL_COMMS // TU EMAIL", form_message_placeholder: "MENSAJE...",
+                form_button: "[ ENVIAR ]",
                 whatsapp_share_text: "Echa un vistazo al portafolio de Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TODOS LOS SISTEMAS NOMINALES"
             },
             fr: {
-                nav_who: "01_QUI_SUIS-JE", nav_caps: "02_COMPÉTENCES", nav_comms: "03_CONTACT",
-                hero_iam: "Je suis",
-                hero_tagline: "Construire des solutions numériques polyvalentes et résilientes, en reliant l'architecture Java robuste de haut niveau à l'efficacité de bas niveau de C pour les systèmes embarqués.",
-                hero_cta: "[ VOIR LES COMPÉTENCES ]",
+                nav_who: "01_QUI_SUIS-JE", nav_summary: "02_RÉSUMÉ", nav_skills: "03_COMPÉTENCES", nav_comms: "04_CONTACT",
+                hero_tagline: "De l'architecture au firmware : construire des solutions numériques robustes qui relient une vision stratégique de haut niveau à une mise en œuvre matérielle efficace.",
+                hero_cta: "[ VOIR COMPÉTENCES ]",
                 about_title: "QUI SUIS-JE ?",
-                about_p: "Je suis un développeur de logiciels qui s'épanouit dans des environnements en évolution rapide et en collaborant au sein d'équipes dynamiques. Ma mission est de concevoir des solutions logicielles robustes, en transformant les défis complexes du développement web en expériences utilisateur fluides et percutantes.",
-                caps_title: "Compétences Clés",
-                caps_p1: "Spécialisé en Backend et en Logiciels Embarqués, je conçois des solutions robustes en combinant une formation avancée avec une expérience pratique. Mon arsenal principal inclut <b>Java, Spring Boot, Node.js, C, et .NET</b>, avec une expérience éprouvée dans le développement et la migration de microservices pour le secteur financier et dans l'exécution du cycle de vie complet du développement selon les méthodologies Agiles.",
-                caps_p2: "Cette expérience pratique est renforcée par un diplôme en <b>Analyse de Systèmes</b> et est actuellement enrichie par une spécialisation en <b>Logiciels Embarqués</b> pour l'industrie aéronautique avec Embraer et CIn/UFPE.",
-                caps_p3: "Pour un aperçu complet de mon parcours professionnel et de mon expérience détaillée, mon profil <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> constitue le dossier principal.",
+                about_p: "Je suis un développeur de logiciels qui excelle dans des environnements en évolution rapide et en collaborant au sein d'équipes dynamiques. Mon objectif est de concevoir et de construire des solutions logicielles de bout en bout, en traduisant les défis de développement complexes, que ce soit sur le web ou dans les systèmes embarqués, en expériences utilisateur fluides et efficaces.",
+                summary_title: "Résumé Professionnel et Formation",
+                summary_p1: "Avec une expérience pratique sur l'ensemble du cycle de vie logiciel, j'ai été responsable de la création de nouvelles fonctionnalités et de la correction de bogues dans les API Java pour le secteur financier. J'ai une expérience avérée dans la migration de systèmes vers une architecture de microservices avec Java 8 et 17, et dans le développement avec Node.js et React.js. Mon travail comprend la création de tests unitaires, d'intégration et de bout en bout, ainsi que l'optimisation de scripts pour les bases de données Oracle et SQL Server.",
+                summary_p2: "J'ai participé au programme de formation StartDB, où j'ai approfondi mes connaissances en Typescript et en méthodologies agiles. Ma maîtrise de l'anglais a été consolidée en travaillant au sein d'une équipe internationale avec des membres de diverses nationalités. Mon parcours académique a commencé par un cours technique en informatique (IFRS), a évolué vers une licence en droit, qui a aiguisé mes compétences analytiques et de pensée critique, et a abouti à un diplôme en analyse et développement de systèmes, suivi d'études supérieures en ingénierie logicielle et en logiciels pour l'industrie aéronautique au CIn/UFPE.",
+                skills_title: "Compétences",
+                skills_cat_lang: "Langages",
+                skills_list_lang: "<li>Java (Avancé)</li><li>Javascript/Typescript (Intermédiaire)</li><li>SQL (Intermédiaire)</li><li>PHP (Intermédiaire)</li><li>Langage C (Intermédiaire)</li><li>Python (Basique)</li><li>Ruby (Basique)</li><li>VHDL (Basique)</li>",
+                skills_cat_frameworks: "Frameworks & Écosystème",
+                skills_list_frameworks: "<li>Spring (Avancé)</li><li>JPA</li><li>JUnit, Mockito (Intermédiaire)</li><li>React (Intermédiaire)</li><li>Angular (Basique)</li>",
+                skills_cat_tools: "Outils & Plateformes",
+                skills_list_tools: "<li>Contrôle de Version : Git, Bitbucket, Azure Repos, GitHub, SVN</li><li>Build & Gestion : Gradle, Maven, Jira, Azure DevOps</li><li>Bases de Données : Oracle PL/SQL, MS SQL Server, MongoDB</li>",
+                skills_cat_methods: "Méthodologies & Pratiques",
+                skills_list_methods: "<li>Méthodologies Agiles</li><li>Clean Code</li><li>Spécification des Exigences</li>",
                 contact_title: "Envoyez-moi un message",
-                contact_p: "Vous avez une mission en tête ou souhaitez simplement entrer en contact ? Ouvrez un canal sécurisé.",
-                form_name_placeholder: "INDICATIF // VOTRE NOM", form_email_placeholder: "CANAL DE COMMS // VOTRE EMAIL", form_message_placeholder: "TRANSMISSION...",
-                form_button: "[ ENVOYER LA TRANSMISSION ]",
-                visitor_counter_label: "VISITEURS DU SITE: <span id='visitor-count'></span>",
-                share_button_label: "[ PARTAGER SUR WHATSAPP ]",
+                contact_p: "Vous avez un projet ou une opportunité ? Prenez contact.",
+                form_name_placeholder: "INDICATIF // VOTRE NOM", form_email_placeholder: "CANAL DE COMMS // VOTRE EMAIL", form_message_placeholder: "MESSAGE...",
+                form_button: "[ ENVOYER ]",
                 whatsapp_share_text: "Découvrez le portfolio de Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TOUS SYSTÈMES OPÉRATIONNELS"
             },
-            ar: {
-                nav_who: "01_من_أنا", nav_caps: "02_القدرات", nav_comms: "03_الاتصال",
-                hero_iam: "أنا",
-                hero_tagline: "بناء حلول رقمية متعددة الاستخدامات ومرنة، من خلال ربط بنية Java القوية عالية المستوى مع كفاءة لغة C منخفضة المستوى للأنظمة المدمجة.",
-                hero_cta: "[ عرض القدرات ]",
-                about_title: "من أنا؟",
-                about_p: "أنا مطور برمجيات أزدهر في بيئات سريعة التغير والتعاون ضمن فرق ديناميكية. مهمتي هي هندسة حلول برمجية قوية، وتحويل تحديات تطوير الويب المعقدة إلى تجارب مستخدم سلسة ومؤثرة.",
-                caps_title: "القدرات الأساسية",
-                caps_p1: "متخصص في الواجهة الخلفية والبرامج المدمجة، أقوم بهندسة حلول قوية من خلال الجمع بين التدريب المتقدم والخبرة العملية. ترسانتي الأساسية تشمل <b>Java, Spring Boot, Node.js, C, and .NET</b>، مع سجل حافل في تطوير وترحيل الخدمات المصغرة للقطاع المالي وتنفيذ دورة حياة التطوير الكاملة وفقًا لمنهجيات Agile.",
-                caps_p2: "هذه الخبرة العملية معززة بشهادة في <b>تحليل النظم</b> ويتم حاليًا رفع مستواها من خلال التخصص في <b>البرامج المدمجة</b> لصناعة الطيران مع Embraer و CIn/UFPE.",
-                caps_p3: "للحصول على نظرة شاملة على خلفيتي المهنية وخبرتي التفصيلية، يعمل ملفي الشخصي على <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> كسجل أساسي.",
-                contact_title: "أرسل لي رسالة",
-                contact_p: "هل لديك مهمة في الاعتبار أو ترغب فقط في التواصل؟ افتح قناة آمنة.",
-                form_name_placeholder: "رمز النداء // اسمك", form_email_placeholder: "قناة الاتصال // بريدك الإلكتروني", form_message_placeholder: "رسالة...",
-                form_button: "[ إرسال الرسالة ]",
-                visitor_counter_label: "زوار الموقع: <span id='visitor-count'></span>",
-                share_button_label: "[ مشاركة عبر الواتساب ]",
-                whatsapp_share_text: "ألق نظرة على ملف أعمال Gunnar Software: ",
-                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: جميع الأنظمة تعمل"
-            },
             ja: {
-                nav_who: "01_自己紹介", nav_caps: "02_能力", nav_comms: "03_連絡先",
-                hero_iam: "私は",
-                hero_tagline: "堅牢な高レベルJavaアーキテクチャと組込みシステム向けの低レベルCの効率性を組み合わせ、多用途で回復力のあるデジタルソリューションを構築します。",
-                hero_cta: "[ 能力を見る ]",
+                nav_who: "01_自己紹介", nav_summary: "02_概要", nav_skills: "03_スキル", nav_comms: "04_連絡先",
+                hero_tagline: "アーキテクチャからファームウェアまで：高度な戦略的ビジョンと効率的なハードウェア実装を結びつける、堅牢なデジタルソリューションを構築します。",
+                hero_cta: "[ スキルを見る ]",
                 about_title: "自己紹介",
-                about_p: "私は、急速に変化する環境をナビゲートし、ダイナミックなチーム内で協力することに長けたソフトウェア開発者です。私の使命は、堅牢なソフトウェアソリューションを設計し、複雑なWeb開発の課題をシームレスでインパクトのあるユーザーエクスペリエンスに変えることです。",
-                caps_title: "中心的な能力",
-                caps_p1: "バックエンドと組込みソフトウェアを専門とし、高度なトレーニングと実践的な経験を組み合わせて堅牢なソリューションを設計します。私の主要な武器には<b>Java、Spring Boot、Node.js、C、.NET</b>が含まれ、金融セクター向けのマイクロサービスの開発と移行、およびアジャイル方法論の下での完全な開発ライフサイクルの実行において実績があります。",
-                caps_p2: "この実務経験は、<b>システム分析</b>の学位によって補強されており、現在、EmbraerおよびCIn/UFPEとの航空産業向け<b>組込みソフトウェア</b>の専門分野を通じてさらに向上しています。",
-                caps_p3: "私の職務経歴および詳細な経験の包括的な概要については、私の<a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a>プロフィールが主要な記録となります。",
+                about_p: "私は、急速に変化する環境をナビゲートし、ダイナミックなチームと協力する機会に意欲を燃やすソフトウェア開発者です。私の焦点は、エンドツーエンドのソフトウェアソリューションを設計および構築し、Webまたは組み込みシステムにおける複雑な開発の課題を、シームレスで効率的なユーザーエクスペリエンスに変換することです。",
+                summary_title: "職務経歴と学歴",
+                summary_p1: "ソフトウェアライフサイクル全体にわたる実践的な経験を持ち、金融セクター向けのJava APIで新機能の作成とバグ修正を担当してきました。Java 8および17を使用したマイクロサービスアーキテクチャへのシステム移行、およびNode.jsとReact.jsを使用した開発で実績があります。私の仕事には、単体テスト、統合テスト、エンドツーエンドテストの作成、およびOracleおよびSQL Serverデータベースのスクリプトの最適化が含まれます。",
+                summary_p2: "私はStartDBトレーニングプログラムに参加し、そこでTypescriptとアジャイル方法論の知識を深めました。私の英語の流暢さは、さまざまな国籍のメンバーと国際的なチームで働くことによって確固たるものになりました。私の学問の旅は、情報学の技術コース（IFRS）から始まり、法学の学士号に発展し、分析的および批判的思考能力を磨き、システム分析開発の学位で最高潮に達し、その後、CIn/UFPEでソフトウェア工学および航空産業向けソフトウェアの大学院研究を行いました。",
+                skills_title: "スキル",
+                skills_cat_lang: "言語",
+                skills_list_lang: "<li>Java (上級)</li><li>Javascript/Typescript (中級)</li><li>SQL (中級)</li><li>PHP (中級)</li><li>C言語 (中級)</li><li>Python (初級)</li><li>Ruby (初級)</li><li>VHDL (初級)</li>",
+                skills_cat_frameworks: "フレームワークとエコシステム",
+                skills_list_frameworks: "<li>Spring (上級)</li><li>JPA</li><li>JUnit, Mockito (中級)</li><li>React (中級)</li><li>Angular (初級)</li>",
+                skills_cat_tools: "ツールとプラットフォーム",
+                skills_list_tools: "<li>バージョン管理: Git, Bitbucket, Azure Repos, GitHub, SVN</li><li>ビルドと管理: Gradle, Maven, Jira, Azure DevOps</li><li>データベース: Oracle PL/SQL, MS SQL Server, MongoDB</li>",
+                skills_cat_methods: "方法論と実践",
+                skills_list_methods: "<li>アジャイル方法論</li><li>クリーンコード</li><li>要件定義</li>",
                 contact_title: "メッセージを送る",
-                contact_p: "ミッションを念頭に置いているか、単に接続したいですか？安全なチャネルを開いてください。",
-                form_name_placeholder: "コールサイン // あなたの名前", form_email_placeholder: "通信チャネル // あなたのメール", form_message_placeholder: "送信内容...",
-                form_button: "[ 送信する ]",
-                visitor_counter_label: "サイト訪問者: <span id='visitor-count'></span>",
-                share_button_label: "[ WHATSAPPで共有 ]",
+                contact_p: "プロジェクトや機会がありますか？ご連絡ください。",
+                form_name_placeholder: "コールサイン // あなたの名前", form_email_placeholder: "通信チャネル // あなたのメール", form_message_placeholder: "メッセージ...",
+                form_button: "[ 送信 ]",
                 whatsapp_share_text: "Gunnar Softwareのポートフォリオをご覧ください: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: 全システム正常"
             },
             zh: {
-                nav_who: "01_关于我", nav_caps: "02_核心能力", nav_comms: "03_联系方式",
-                hero_iam: "我是一名",
-                hero_tagline: "构建多功能且有弹性的数字解决方案，将强大的高级Java架构与用于嵌入式系统的低级C语言的高效性相结合。",
-                hero_cta: "[ 查看核心能力 ]",
+                nav_who: "01_关于我", nav_summary: "02_摘要", nav_skills: "03_技能", nav_comms: "04_联系方式",
+                hero_tagline: "从架构到固件：构建连接高级战略愿景与高效硬件实施的强大数字解决方案。",
+                hero_cta: "[ 查看技能 ]",
                 about_title: "关于我",
-                about_p: "我是一名软件开发人员，在快速变化的环境中游刃有余，并乐于在充满活力的团队中协作。我的使命是设计强大的软件解决方案，将复杂的Web开发挑战转化为无缝且有影响力的用户体验。",
-                caps_title: "核心能力",
-                caps_p1: "我专注于后端和嵌入式软件，通过将高级培训与实践经验相结合来设计强大的解决方案。我的核心技术栈包括<b>Java、Spring Boot、Node.js、C和.NET</b>，在为金融部门开发和迁移微服务以及在敏捷方法下执行完整的开发生命周期方面拥有可靠的实践记录。",
-                caps_p2: "这一实践经验得到了<b>系统分析</b>学位的加强，目前正在通过与Embraer和CIn/UFPE合作的航空工业<b>嵌入式软件</b>专业化课程得到提升。",
-                caps_p3: "要全面了解我的专业背景和详细经验，我的<a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>领英</a>个人资料是主要的记录。",
+                about_p: "我是一名在快速变化的环境中表现出色，并乐于在充满活力的团队中协作的软件开发人员。我的使命是设计强大的软件解决方案，将复杂的Web开发挑战转化为无缝且有影响力的用户体验。",
+                summary_title: "专业摘要与教育背景",
+                summary_p1: "凭借贯穿整个软件生命周期的实践经验，我曾负责为金融部门的Java API创建新功能和修复错误。我在使用Java 8和17将系统迁移到微服务架构方面，以及使用Node.js和React.js进行开发方面拥有成熟的经验。我的工作包括创建单元、集成和端到端测试，以及优化Oracle和SQL Server数据库的脚本。",
+                summary_p2: "我参加了StartDB培训计划，在那里我增强了对Typescript和敏捷方法论的知识。通过与来自不同国家的成员组成的国际团队合作，我的英语流利程度得到了巩固。我的学术旅程始于信息学技术课程（IFRS），之后发展为法学学士学位，这磨练了我的分析和批判性思维能力，最终获得了系统分析与开发学位，随后在CIn/UFPE攻读了软件工程和航空工业软件的研究生课程。",
+                skills_title: "技能",
+                skills_cat_lang: "语言",
+                skills_list_lang: "<li>Java (高级)</li><li>Javascript/Typescript (中级)</li><li>SQL (中级)</li><li>PHP (中级)</li><li>C语言 (中级)</li><li>Python (初级)</li><li>Ruby (初级)</li><li>VHDL (初级)</li>",
+                skills_cat_frameworks: "框架与生态系统",
+                skills_list_frameworks: "<li>Spring (高级)</li><li>JPA</li><li>JUnit, Mockito (中级)</li><li>React (中级)</li><li>Angular (初级)</li>",
+                skills_cat_tools: "工具与平台",
+                skills_list_tools: "<li>版本控制: Git, Bitbucket, Azure Repos, GitHub, SVN</li><li>构建与管理: Gradle, Maven, Jira, Azure DevOps</li><li>数据库: Oracle PL/SQL, MS SQL Server, MongoDB</li>",
+                skills_cat_methods: "方法论与实践",
+                skills_list_methods: "<li>敏捷方法论</li><li>简洁代码</li><li>需求规格说明</li>",
                 contact_title: "给我留言",
-                contact_p: "有任务在身，或者只是想联系？请打开一个安全的频道。",
-                form_name_placeholder: "呼号 // 您的名字", form_email_placeholder: "通信频道 // 您的电子邮件", form_message_placeholder: "传输内容...",
-                form_button: "[ 发送传输 ]",
-                visitor_counter_label: "网站访客: <span id='visitor-count'></span>",
-                share_button_label: "[ 在WHATSAPP上分享 ]",
+                contact_p: "有项目或机会吗？请联系我。",
+                form_name_placeholder: "呼号 // 您的名字", form_email_placeholder: "通信频道 // 您的电子邮件", form_message_placeholder: "信息...",
+                form_button: "[ 发送 ]",
                 whatsapp_share_text: "查看Gunnar Software的作品集: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: 所有系统正常运行"
             }
         };
 
         const textArrays = {
-            en: ["Embedded Software Developer", "Java Developer", "C Developer","Software Developer"],
-            pt: ["Desenvolvedor de Software Embarcado", "Desenvolvedor Java", "Desenvolvedor C", "Desenvolvedor de Software"],
-            es: ["Desarrollador de Software Embebido", "Desarrollador Java", "Desarrollador C", "Desarrollador de Software"],
-            fr: ["Développeur Logiciel Embarqué", "Développeur Java", "Développeur C", "Développeur Logiciel"],
-            ar: ["مطور برامج مدمجة", "مطور Java", "مطور C", "مطور برامج"],
-            ja: ["組込みソフトウェア開発者", "Java開発者", "C開発者", "ソフトウェア開発者"],
-            zh: ["嵌入式软件开发人员", "Java开发人员", "C开发人员", "软件开发人员"]
+            en: ["Java", "Javascript", "Typescript", "SQL", "PHP", "C", "Python", "Ruby", "VHDL", "Spring", "JPA", "JUnit", "Mockito", "React", "Angular", "Embedded Software"],
+            pt: ["Java", "Javascript", "Typescript", "SQL", "PHP", "C", "Python", "Ruby", "VHDL", "Spring", "JPA", "JUnit", "Mockito", "React", "Angular", "Software Embarcado"],
+            es: ["Java", "Javascript", "Typescript", "SQL", "PHP", "C", "Python", "Ruby", "VHDL", "Spring", "JPA", "JUnit", "Mockito", "React", "Angular", "Software Embebido"],
+            fr: ["Java", "Javascript", "Typescript", "SQL", "PHP", "C", "Python", "Ruby", "VHDL", "Spring", "JPA", "JUnit", "Mockito", "React", "Angular", "Logiciel Embarqué"],
+            ja: ["Java", "Javascript", "Typescript", "SQL", "PHP", "C", "Python", "Ruby", "VHDL", "Spring", "JPA", "JUnit", "Mockito", "React", "Angular", "組込みソフトウェア"],
+            zh: ["Java", "Javascript", "Typescript", "SQL", "PHP", "C", "Python", "Ruby", "VHDL", "Spring", "JPA", "JUnit", "Mockito", "React", "Angular", "嵌入式软件"]
         };
 
         let currentLang = 'en';
@@ -642,18 +745,7 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            let count = localStorage.getItem('visitorCount');
-            count = count ? parseInt(count) + 1 : 1;
-            localStorage.setItem('visitorCount', count);
-            
-            function updateVisitorCount() {
-                const countElement = document.getElementById('visitor-count');
-                if(countElement) {
-                    countElement.textContent = count.toString().padStart(6, '0');
-                }
-            }
-
-            const shareBtn = document.getElementById('whatsapp-share-btn');
+            const shareBtn = document.getElementById('whatsapp-share-icon');
             shareBtn.addEventListener('click', function(e) {
                 e.preventDefault();
                 const shareText = encodeURIComponent(translations[currentLang].whatsapp_share_text + window.location.href);
@@ -685,18 +777,10 @@
             if (userLang.startsWith('pt')) initialLang = 'pt';
             else if (userLang.startsWith('es')) initialLang = 'es';
             else if (userLang.startsWith('fr')) initialLang = 'fr';
-            else if (userLang.startsWith('ar')) initialLang = 'ar';
             else if (userLang.startsWith('ja')) initialLang = 'ja';
             else if (userLang.startsWith('zh')) initialLang = 'zh';
             
             setLanguage(initialLang);
-            updateVisitorCount();
-
-            const originalSetLanguage = setLanguage;
-            setLanguage = function(lang) {
-                originalSetLanguage(lang);
-                updateVisitorCount();
-            };
         });
     </script>
 </body>
