@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gunnar Software - Portfolio</title>
+    
+    <!-- MODIFICATION: Page title updated -->
+    <title>Gunnar Software</title>
+    
+    <!-- MODIFICATION: Meta tags for social media sharing (WhatsApp, etc.) -->
+    <meta name="description" content="Portfólio de Matheus Gunnar, especialista em desenvolvimento de software embarcado e sistemas web.">
+    <meta property="og:title" content="Gunnar Software">
+    <meta property="og:description" content="Gunnar Software: Desenvolvimento de software embarcado e sistemas web.">
+    <meta property="og:type" content="website">
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&display=swap" rel="stylesheet">
@@ -16,7 +25,6 @@
             --background-color: #0d0d1a; /* Very Dark Blue */
             --hud-frame-color: #3a3a5e;
             --text-color: #d0d0ff;
-            /* MODIFICATION: Reduced scanline opacity for a subtler effect */
             --scanline-opacity: 0.04;
         }
 
@@ -40,7 +48,6 @@
             position: relative;
         }
         
-        /* Cockpit Overlay & Scanlines */
         body::before {
             content: '';
             position: fixed;
@@ -58,7 +65,6 @@
                 );
             pointer-events: none;
             z-index: 1000;
-            /* MODIFICATION: Subtler flicker animation */
             animation: subtle-flicker 0.2s infinite;
         }
 
@@ -69,7 +75,6 @@
             padding: 2rem 0;
         }
 
-        /* --- HUD (Header & UI Elements) --- */
         .hud-border {
             border: 2px solid var(--hud-frame-color);
             padding: 1.5rem;
@@ -98,7 +103,6 @@
         .corner-bottom-left { bottom: -2px; left: -2px; border-top: none; border-right: none;}
         .corner-bottom-right { bottom: -2px; right: -2px; border-top: none; border-left: none;}
 
-
         header {
             display: flex;
             justify-content: space-between;
@@ -115,7 +119,6 @@
             text-shadow: 0 0 5px var(--primary-color);
         }
         
-        /* Language Switcher Styling */
         .lang-switcher {
             display: flex;
             gap: 1rem;
@@ -128,7 +131,7 @@
             line-height: 1;
         }
         .lang-switcher .fi {
-            font-size: 1.5rem; /* Flag icon size */
+            font-size: 1.5rem;
             border-radius: 3px;
         }
         .lang-switcher a:hover {
@@ -166,7 +169,6 @@
             text-shadow: 0 0 8px var(--primary-color);
         }
         
-        /* --- Main Content Sections --- */
         h1, h2, h3 {
             color: var(--primary-color);
             margin-bottom: 1rem;
@@ -220,7 +222,6 @@
             box-shadow: 0 0 15px var(--primary-color);
         }
         
-        /* Contact Form */
         .contact-form {
             display: flex;
             flex-direction: column;
@@ -245,7 +246,6 @@
             cursor: pointer;
         }
 
-        /* Footer */
         footer {
             text-align: center;
             padding: 1.5rem;
@@ -254,17 +254,33 @@
             font-size: 0.9rem;
         }
         
+        .social-links {
+            margin-bottom: 1.5rem;
+        }
         .social-links a {
             color: var(--primary-color);
             text-decoration: none;
             margin: 0 10px;
             font-size: 1.2rem;
         }
+        
+        .footer-stats {
+            margin-top: 1.5rem;
+            color: var(--primary-color);
+            text-transform: uppercase;
+        }
+        #visitor-count {
+            font-weight: bold;
+            text-shadow: 0 0 5px var(--primary-color);
+        }
+        #whatsapp-share-btn {
+            margin-top: 1rem;
+            font-size: 1rem;
+        }
 
-        /* Animations */
         @keyframes subtle-flicker {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.95; }
+            50% { opacity: 0.98; }
         }
 
         @keyframes pulse-glow {
@@ -277,7 +293,6 @@
             50% { background-color: var(--primary-color); }
         }
         
-        /* Responsive */
         @media (max-width: 768px) {
             header {
                 flex-direction: column;
@@ -304,9 +319,10 @@
             <a href="#" class="lang-link active" onclick="setLanguage('en')"><span class="fi fi-us"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('pt')"><span class="fi fi-br"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('es')"><span class="fi fi-es"></span></a>
-            <a href="#" class="lang-link" onclick="setLanguage('ru')"><span class="fi fi-ru"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('fr')"><span class="fi fi-fr"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('ar')"><span class="fi fi-sa"></span></a>
             <a href="#" class="lang-link" onclick="setLanguage('ja')"><span class="fi fi-jp"></span></a>
+            <a href="#" class="lang-link" onclick="setLanguage('zh')"><span class="fi fi-cn"></span></a>
         </div>
     </header>
 
@@ -357,15 +373,8 @@
             <h2 data-key="contact_title">Send me a message</h2>
             <p data-key="contact_p">Have a mission in mind or just want to connect? Open a secure channel.</p>
             
-            <!-- 
-                ACTION REQUIRED:
-                1. Go to https://formspree.io and create a new form.
-                2. Set the recipient email to "hello@gunnarsoftware.com" in the Formspree settings.
-                3. Replace the placeholder URL below with your unique Formspree endpoint URL.
-            -->
-            <form class="contact-form" action="https://formspree.io/f/xovwnzzv" method="POST">
+            <form class="contact-form" action="https://formspree.io/f/YOUR_UNIQUE_ID_HERE" method="POST">
                 <input type="text" name="name" data-key="form_name_placeholder" placeholder="CALLSIGN // YOUR NAME" required>
-                <!-- The 'name' attribute is set to "_replyto" for Formspree to correctly handle reply emails -->
                 <input type="email" name="_replyto" data-key="form_email_placeholder" placeholder="COMM_CHANNEL // YOUR EMAIL" required>
                 <textarea name="message" rows="5" data-key="form_message_placeholder" placeholder="TRANSMISSION..."></textarea>
                 <button type="submit" class="cta-button" data-key="form_button">[ SEND TRANSMISSION ]</button>
@@ -380,6 +389,12 @@
             <a href="https://github.com/mgunnar/" target="_blank">GitHub</a>
             <a href="https://www.linkedin.com/in/matheusgunnar" target="_blank">LinkedIn</a>
         </div>
+        
+        <div class="footer-stats">
+            <div data-key="visitor_counter_label">SITE VISITORS: <span id="visitor-count"></span></div>
+            <a href="#" id="whatsapp-share-btn" class="cta-button" data-key="share_button_label">[ SHARE ON WHATSAPP ]</a>
+        </div>
+        
         <p data-key="footer_copy">&copy; 2025 GUNNARSOFTWARE.COM :: ALL SYSTEMS NOMINAL</p>
     </footer>
 
@@ -401,6 +416,9 @@
                 contact_p: "Have a mission in mind or just want to connect? Open a secure channel.",
                 form_name_placeholder: "CALLSIGN // YOUR NAME", form_email_placeholder: "COMM_CHANNEL // YOUR EMAIL", form_message_placeholder: "TRANSMISSION...",
                 form_button: "[ SEND TRANSMISSION ]",
+                visitor_counter_label: "SITE VISITORS: <span id='visitor-count'></span>",
+                share_button_label: "[ SHARE ON WHATSAPP ]",
+                whatsapp_share_text: "Check out the portfolio of Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: ALL SYSTEMS NOMINAL"
             },
             pt: {
@@ -418,6 +436,9 @@
                 contact_p: "Tem uma missão em mente ou só quer se conectar? Abra um canal seguro.",
                 form_name_placeholder: "IDENTIFICAÇÃO // SEU NOME", form_email_placeholder: "CANAL_COMMS // SEU EMAIL", form_message_placeholder: "TRANSMISSÃO...",
                 form_button: "[ ENVIAR TRANSMISSÃO ]",
+                visitor_counter_label: "VISITANTES DO SITE: <span id='visitor-count'></span>",
+                share_button_label: "[ COMPARTILHAR NO WHATSAPP ]",
+                whatsapp_share_text: "Confira o portfólio da Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TODOS OS SISTEMAS NOMINAIS"
             },
             es: {
@@ -435,24 +456,30 @@
                 contact_p: "¿Tienes una misión en mente o solo quieres conectar? Abre un canal seguro.",
                 form_name_placeholder: "SEÑAL // TU NOMBRE", form_email_placeholder: "CANAL_COMMS // TU EMAIL", form_message_placeholder: "TRANSMISIÓN...",
                 form_button: "[ ENVIAR TRANSMISIÓN ]",
+                visitor_counter_label: "VISITANTES DEL SITIO: <span id='visitor-count'></span>",
+                share_button_label: "[ COMPARTIR EN WHATSAPP ]",
+                whatsapp_share_text: "Echa un vistazo al portafolio de Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TODOS LOS SISTEMAS NOMINALES"
             },
-            ru: {
-                nav_who: "01_КТО_Я", nav_caps: "02_КОМПЕТЕНЦИИ", nav_comms: "03_СВЯЗЬ",
-                hero_iam: "Я",
-                hero_tagline: "Создание универсальных и отказоустойчивых цифровых решений, объединяющих надежную высокоуровневую архитектуру Java с низкоуровневой эффективностью C для встраиваемых систем.",
-                hero_cta: "[ ПОСМОТРЕТЬ КОМПЕТЕНЦИИ ]",
-                about_title: "КТО Я?",
-                about_p: "Я разработчик программного обеспечения, который преуспевает в быстро меняющихся средах и в сотрудничестве с динамичными командами. Моя миссия — создавать надежные программные решения, превращая сложные задачи веб-разработки в удобный и эффективный пользовательский опыт.",
-                caps_title: "Основные компетенции",
-                caps_p1: "Специализируясь на бэкенде и встраиваемом ПО, я создаю надежные решения, сочетая передовое обучение с практическим опытом. Мой основной арсенал включает <b>Java, Spring Boot, Node.js, C и .NET</b>, с подтвержденным опытом разработки и миграции микросервисов для финансового сектора и выполнения полного жизненного цикла разработки по методологиям Agile.",
-                caps_p2: "Этот практический опыт подкреплен степенью в области <b>Системного анализа</b> и в настоящее время повышается за счет специализации по <b>Встраиваемому программному обеспечению</b> для авиационной промышленности в Embraer и CIn/UFPE.",
-                caps_p3: "Для получения полного обзора моего профессионального пути и подробного опыта мой профиль в <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> служит основной записью.",
-                contact_title: "Отправьте мне сообщение",
-                contact_p: "Есть миссия или просто хотите связаться? Откройте безопасный канал.",
-                form_name_placeholder: "ПОЗЫВНОЙ // ВАШЕ ИМЯ", form_email_placeholder: "КАНАЛ СВЯЗИ // ВАШ EMAIL", form_message_placeholder: "СООБЩЕНИЕ...",
-                form_button: "[ ОТПРАВИТЬ СООБЩЕНИЕ ]",
-                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: ВСЕ СИСТЕМЫ В НОРМЕ"
+            fr: {
+                nav_who: "01_QUI_SUIS-JE", nav_caps: "02_COMPÉTENCES", nav_comms: "03_CONTACT",
+                hero_iam: "Je suis",
+                hero_tagline: "Construire des solutions numériques polyvalentes et résilientes, en reliant l'architecture Java robuste de haut niveau à l'efficacité de bas niveau de C pour les systèmes embarqués.",
+                hero_cta: "[ VOIR LES COMPÉTENCES ]",
+                about_title: "QUI SUIS-JE ?",
+                about_p: "Je suis un développeur de logiciels qui s'épanouit dans des environnements en évolution rapide et en collaborant au sein d'équipes dynamiques. Ma mission est de concevoir des solutions logicielles robustes, en transformant les défis complexes du développement web en expériences utilisateur fluides et percutantes.",
+                caps_title: "Compétences Clés",
+                caps_p1: "Spécialisé en Backend et en Logiciels Embarqués, je conçois des solutions robustes en combinant une formation avancée avec une expérience pratique. Mon arsenal principal inclut <b>Java, Spring Boot, Node.js, C, et .NET</b>, avec une expérience éprouvée dans le développement et la migration de microservices pour le secteur financier et dans l'exécution du cycle de vie complet du développement selon les méthodologies Agiles.",
+                caps_p2: "Cette expérience pratique est renforcée par un diplôme en <b>Analyse de Systèmes</b> et est actuellement enrichie par une spécialisation en <b>Logiciels Embarqués</b> pour l'industrie aéronautique avec Embraer et CIn/UFPE.",
+                caps_p3: "Pour un aperçu complet de mon parcours professionnel et de mon expérience détaillée, mon profil <a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>LinkedIn</a> constitue le dossier principal.",
+                contact_title: "Envoyez-moi un message",
+                contact_p: "Vous avez une mission en tête ou souhaitez simplement entrer en contact ? Ouvrez un canal sécurisé.",
+                form_name_placeholder: "INDICATIF // VOTRE NOM", form_email_placeholder: "CANAL DE COMMS // VOTRE EMAIL", form_message_placeholder: "TRANSMISSION...",
+                form_button: "[ ENVOYER LA TRANSMISSION ]",
+                visitor_counter_label: "VISITEURS DU SITE: <span id='visitor-count'></span>",
+                share_button_label: "[ PARTAGER SUR WHATSAPP ]",
+                whatsapp_share_text: "Découvrez le portfolio de Gunnar Software: ",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: TOUS SYSTÈMES OPÉRATIONNELS"
             },
             ar: {
                 nav_who: "01_من_أنا", nav_caps: "02_القدرات", nav_comms: "03_الاتصال",
@@ -469,6 +496,9 @@
                 contact_p: "هل لديك مهمة في الاعتبار أو ترغب فقط في التواصل؟ افتح قناة آمنة.",
                 form_name_placeholder: "رمز النداء // اسمك", form_email_placeholder: "قناة الاتصال // بريدك الإلكتروني", form_message_placeholder: "رسالة...",
                 form_button: "[ إرسال الرسالة ]",
+                visitor_counter_label: "زوار الموقع: <span id='visitor-count'></span>",
+                share_button_label: "[ مشاركة عبر الواتساب ]",
+                whatsapp_share_text: "ألق نظرة على ملف أعمال Gunnar Software: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: جميع الأنظمة تعمل"
             },
             ja: {
@@ -486,7 +516,30 @@
                 contact_p: "ミッションを念頭に置いているか、単に接続したいですか？安全なチャネルを開いてください。",
                 form_name_placeholder: "コールサイン // あなたの名前", form_email_placeholder: "通信チャネル // あなたのメール", form_message_placeholder: "送信内容...",
                 form_button: "[ 送信する ]",
+                visitor_counter_label: "サイト訪問者: <span id='visitor-count'></span>",
+                share_button_label: "[ WHATSAPPで共有 ]",
+                whatsapp_share_text: "Gunnar Softwareのポートフォリオをご覧ください: ",
                 footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: 全システム正常"
+            },
+            zh: {
+                nav_who: "01_关于我", nav_caps: "02_核心能力", nav_comms: "03_联系方式",
+                hero_iam: "我是一名",
+                hero_tagline: "构建多功能且有弹性的数字解决方案，将强大的高级Java架构与用于嵌入式系统的低级C语言的高效性相结合。",
+                hero_cta: "[ 查看核心能力 ]",
+                about_title: "关于我",
+                about_p: "我是一名软件开发人员，在快速变化的环境中游刃有余，并乐于在充满活力的团队中协作。我的使命是设计强大的软件解决方案，将复杂的Web开发挑战转化为无缝且有影响力的用户体验。",
+                caps_title: "核心能力",
+                caps_p1: "我专注于后端和嵌入式软件，通过将高级培训与实践经验相结合来设计强大的解决方案。我的核心技术栈包括<b>Java、Spring Boot、Node.js、C和.NET</b>，在为金融部门开发和迁移微服务以及在敏捷方法下执行完整的开发生命周期方面拥有可靠的实践记录。",
+                caps_p2: "这一实践经验得到了<b>系统分析</b>学位的加强，目前正在通过与Embraer和CIn/UFPE合作的航空工业<b>嵌入式软件</b>专业化课程得到提升。",
+                caps_p3: "要全面了解我的专业背景和详细经验，我的<a href='https://www.linkedin.com/in/matheusgunnar' target='_blank' style='color: var(--primary-color);'>领英</a>个人资料是主要的记录。",
+                contact_title: "给我留言",
+                contact_p: "有任务在身，或者只是想联系？请打开一个安全的频道。",
+                form_name_placeholder: "呼号 // 您的名字", form_email_placeholder: "通信频道 // 您的电子邮件", form_message_placeholder: "传输内容...",
+                form_button: "[ 发送传输 ]",
+                visitor_counter_label: "网站访客: <span id='visitor-count'></span>",
+                share_button_label: "[ 在WHATSAPP上分享 ]",
+                whatsapp_share_text: "查看Gunnar Software的作品集: ",
+                footer_copy: "&copy; 2025 GUNNARSOFTWARE.COM :: 所有系统正常运行"
             }
         };
 
@@ -494,9 +547,10 @@
             en: ["Embedded Software Developer", "Java Developer", "C Developer","Software Developer"],
             pt: ["Desenvolvedor de Software Embarcado", "Desenvolvedor Java", "Desenvolvedor C", "Desenvolvedor de Software"],
             es: ["Desarrollador de Software Embebido", "Desarrollador Java", "Desarrollador C", "Desarrollador de Software"],
-            ru: ["Разработчик встраиваемого ПО", "Java-разработчик", "C-разработчик", "Разработчик ПО"],
+            fr: ["Développeur Logiciel Embarqué", "Développeur Java", "Développeur C", "Développeur Logiciel"],
             ar: ["مطور برامج مدمجة", "مطور Java", "مطور C", "مطور برامج"],
-            ja: ["組込みソフトウェア開発者", "Java開発者", "C開発者", "ソフトウェア開発者"]
+            ja: ["組込みソフトウェア開発者", "Java開発者", "C開発者", "ソフトウェア開発者"],
+            zh: ["嵌入式软件开发人员", "Java开发人员", "C开发人员", "软件开发人员"]
         };
 
         let currentLang = 'en';
@@ -507,7 +561,6 @@
         const cursorSpan = document.querySelector(".typing-cursor");
 
         function setLanguage(lang) {
-            // Update all text based on data-key attribute
             document.querySelectorAll('[data-key]').forEach(elem => {
                 const key = elem.getAttribute('data-key');
                 if (translations[lang] && translations[lang][key]) {
@@ -519,7 +572,6 @@
                 }
             });
             
-            // Set page direction for Arabic
             if (lang === 'ar') {
                 document.documentElement.setAttribute('dir', 'rtl');
             } else {
@@ -529,11 +581,9 @@
             document.documentElement.lang = lang;
             currentLang = lang;
             
-            // Update active flag for language switcher
             document.querySelectorAll('.lang-link').forEach(link => link.classList.remove('active'));
             document.querySelector(`.lang-link[onclick="setLanguage('${lang}')"]`).classList.add('active');
 
-            // Reset and restart typing animation for the new language
             clearTimeout(typeTimeout);
             clearTimeout(eraseTimeout);
             textArrayIndex = 0;
@@ -543,9 +593,9 @@
             type(); 
         }
 
-        // --- GENERAL PAGE LOGIC ---
         function type() {
             const currentTextArray = textArrays[currentLang];
+            if (!currentTextArray) return;
             if (charIndex < currentTextArray[textArrayIndex].length) {
                 if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
                 typedTextSpan.textContent += currentTextArray[textArrayIndex].charAt(charIndex);
@@ -559,6 +609,7 @@
 
         function erase() {
             const currentTextArray = textArrays[currentLang];
+            if (!currentTextArray) return;
             if (charIndex > 0) {
                 if(!cursorSpan.classList.contains("typing")) cursorSpan.classList.add("typing");
                 typedTextSpan.textContent = currentTextArray[textArrayIndex].substring(0, charIndex - 1);
@@ -573,7 +624,24 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Active nav link on scroll
+            let count = localStorage.getItem('visitorCount');
+            count = count ? parseInt(count) + 1 : 1;
+            localStorage.setItem('visitorCount', count);
+            
+            function updateVisitorCount() {
+                const countElement = document.getElementById('visitor-count');
+                if(countElement) {
+                    countElement.textContent = count.toString().padStart(6, '0');
+                }
+            }
+
+            const shareBtn = document.getElementById('whatsapp-share-btn');
+            shareBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const shareText = encodeURIComponent(translations[currentLang].whatsapp_share_text + window.location.href);
+                window.open(`https://api.whatsapp.com/send?text=${shareText}`, '_blank');
+            });
+
             const sections = document.querySelectorAll('section');
             const navLinks = document.querySelectorAll('nav a');
             window.addEventListener('scroll', ()=> {
@@ -593,20 +661,24 @@
                     }
                 });
             });
-
-            // The form submission is now handled by the 'action' attribute on the <form> tag.
-            // No custom JavaScript is needed for submission.
             
-            // Set initial language based on browser preference
             const userLang = navigator.language || navigator.userLanguage;
             let initialLang = 'en';
             if (userLang.startsWith('pt')) initialLang = 'pt';
             else if (userLang.startsWith('es')) initialLang = 'es';
-            else if (userLang.startsWith('ru')) initialLang = 'ru';
+            else if (userLang.startsWith('fr')) initialLang = 'fr';
             else if (userLang.startsWith('ar')) initialLang = 'ar';
             else if (userLang.startsWith('ja')) initialLang = 'ja';
+            else if (userLang.startsWith('zh')) initialLang = 'zh';
             
             setLanguage(initialLang);
+            updateVisitorCount();
+
+            const originalSetLanguage = setLanguage;
+            setLanguage = function(lang) {
+                originalSetLanguage(lang);
+                updateVisitorCount();
+            };
         });
     </script>
 </body>
