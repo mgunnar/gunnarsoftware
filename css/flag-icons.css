@@ -1,0 +1,60 @@
+.fib, .fi {
+  background-size: contain;
+  background-position: 50%;
+  background-repeat: no-repeat;
+}
+
+.fi {
+  position: relative;
+  display: inline-block;
+  width: 1.333333em;
+  line-height: 1em;
+}
+.fi:before {
+  content: " ";
+}
+.fi.fis {
+  width: 1em;
+}
+
+.fi-br {
+  background-image: url(flags/4x3/br.svg);
+}
+.fi-br.fis {
+  background-image: url(flags/1x1/br.svg);
+}
+
+.fi-cn {
+  background-image: url(flags/4x3/cn.svg);
+}
+.fi-cn.fis {
+  background-image: url(flags/1x1/cn.svg);
+}
+
+.fi-es {
+  background-image: url(flags/4x3/es.svg);
+}
+.fi-es.fis {
+  background-image: url(flags/1x1/es.svg);
+}
+
+.fi-fr {
+  background-image: url(flags/4x3/fr.svg);
+}
+.fi-fr.fis {
+  background-image: url(flags/1x1/fr.svg);
+}
+
+.fi-jp {
+  background-image: url(flags/4x3/jp.svg);
+}
+.fi-jp.fis {
+  background-image: url(flags/1x1/jp.svg);
+}
+
+.fi-us {
+  background-image: url(flags/4x3/us.svg);
+}
+.fi-us.fis {
+  background-image: url(flags/1x1/us.svg);
+}

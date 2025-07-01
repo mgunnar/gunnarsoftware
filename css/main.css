@@ -1,0 +1,393 @@
+/* CSS - ESTILIZAÇÃO */
+:root {
+  --primary-color: #00ff41; /* Verde Brilhante */
+  --background-color: #080810;
+  --hud-frame-color: #3a3a5e;
+  --text-color: #d0d0ff;
+  --scanline-opacity: 0.06;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+html {
+  scroll-behavior: smooth;
+}
+body {
+  font-family: "Fira Code", monospace;
+  background-color: var(--background-color);
+  color: var(--text-color);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  position: relative;
+}
+/* MODIFICAÇÃO: Estilização da Barra de Rolagem */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--background-color);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary-color);
+  border: 2px solid var(--background-color);
+  border-radius: 5px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #00e03a;
+}
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0) 0,
+    rgba(0, 0, 0, 0) 2px,
+    rgba(255, 255, 255, var(--scanline-opacity)) 3px,
+    rgba(255, 255, 255, var(--scanline-opacity)) 4px
+  );
+  pointer-events: none;
+  z-index: 1000;
+  animation: subtle-flicker 0.2s infinite;
+}
+.container {
+  width: 90%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+.hud-border {
+  border: 2px solid var(--hud-frame-color);
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  position: relative;
+  background: rgba(13, 13, 26, 0.5);
+  animation: pulse-glow 4s infinite ease-in-out;
+  transition: border-color 0.5s ease-in-out, box-shadow 0.5s ease-in-out;
+}
+.hud-border::before,
+.hud-border::after {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--primary-color);
+}
+.hud-border::before {
+  top: -2px;
+  left: -2px;
+  border-right: none;
+  border-bottom: none;
+}
+.hud-border::after {
+  top: -2px;
+  right: -2px;
+  border-left: none;
+  border-bottom: none;
+}
+.corner-bottom-left,
+.corner-bottom-right {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 2px solid var(--primary-color);
+}
+.corner-bottom-left {
+  bottom: -2px;
+  left: -2px;
+  border-top: none;
+  border-right: none;
+}
+.corner-bottom-right {
+  bottom: -2px;
+  right: -2px;
+  border-top: none;
+  border-left: none;
+}
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 1.5rem;
+  border-bottom: 2px solid var(--hud-frame-color);
+  margin-bottom: 2rem;
+  position: sticky;
+  top: 0;
+  background-color: rgba(8, 8, 16, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: 999;
+}
+.logo {
+  color: var(--primary-color);
+}
+.logo svg {
+  height: 40px;
+  width: auto;
+  max-width: 300px;
+}
+.logo-terminal {
+  font-family: "VT323", monospace;
+  fill: var(--primary-color);
+  font-size: 28px;
+  text-shadow: 0 0 5px var(--primary-color);
+}
+.blinking-cursor {
+  animation: blink 1s step-end infinite;
+}
+.lang-switcher {
+  display: flex;
+  gap: 1rem;
+}
+.lang-switcher a {
+  text-decoration: none;
+  opacity: 0.7;
+  transition: opacity 0.3s, transform 0.3s;
+  display: inline-block;
+  line-height: 1;
+}
+.lang-switcher .fi {
+  font-size: 1.5rem;
+  border-radius: 3px;
+}
+.lang-switcher a:hover {
+  opacity: 1;
+  transform: scale(1.1);
+}
+.lang-switcher a.active {
+  opacity: 1;
+  transform: scale(1.2);
+}
+.lang-switcher a.active .fi {
+  filter: drop-shadow(0 0 5px var(--primary-color));
+}
+h1,
+h2,
+h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+h2::before {
+  content: ">> ";
+}
+.hero {
+  text-align: center;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.hero h1 {
+  font-size: 2.5rem;
+  margin-top: 1rem;
+}
+.typing-container {
+  font-size: 1.5rem;
+  height: 2.5rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.typing-cursor {
+  display: inline-block;
+  background-color: var(--primary-color);
+  width: 10px;
+  height: 2.2rem;
+  animation: blink 1s step-end infinite;
+  box-shadow: 0 0 5px var(--primary-color);
+  margin-left: 5px;
+}
+.hero p {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 1rem auto;
+}
+.cta-button {
+  display: inline-block;
+  background: transparent;
+  color: var(--primary-color);
+  border: 2px solid var(--primary-color);
+  padding: 10px 20px;
+  text-decoration: none;
+  margin-top: 1.5rem;
+  transition: background 0.3s, color 0.3s;
+}
+.cta-button:hover {
+  background: var(--primary-color);
+  color: var(--background-color);
+  box-shadow: 0 0 15px var(--primary-color);
+}
+#skills-decoder {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  min-height: 400px;
+}
+.skills-category-decoder ul {
+  list-style: none;
+  padding: 0;
+}
+.skills-category-decoder li::before {
+  content: "+ ";
+  color: var(--primary-color);
+}
+.decoding-cursor {
+  display: inline-block;
+  background-color: var(--primary-color);
+  width: 10px;
+  height: 1.5rem;
+  animation: blink 1s step-end infinite;
+  box-shadow: 0 0 5px var(--primary-color);
+  margin-left: 5px;
+  vertical-align: middle;
+}
+.contact-form {
+  display: flex;
+  flex-direction: column;
+}
+.contact-form input,
+.contact-form textarea {
+  background-color: rgba(0, 0, 0, 0.3);
+  border: 1px solid var(--hud-frame-color);
+  color: var(--text-color);
+  padding: 10px;
+  margin-bottom: 1rem;
+  font-family: "Fira Code", monospace;
+}
+.contact-form input:focus,
+.contact-form textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 8px var(--primary-color);
+}
+.contact-form input:invalid,
+.contact-form textarea:invalid {
+  box-shadow: 0 0 8px #ff0000;
+  border-color: #ff0000;
+}
+.contact-form button {
+  cursor: pointer;
+}
+footer {
+  text-align: center;
+  padding: 1.5rem;
+  margin-top: 2rem;
+  border-top: 2px solid var(--hud-frame-color);
+  font-size: 0.9rem;
+}
+.social-links {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+.social-links a {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+.social-links a:hover {
+  transform: scale(1.1);
+}
+.social-links svg {
+  width: 28px;
+  height: 28px;
+  fill: currentColor;
+}
+@keyframes subtle-flicker {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.98;
+  }
+}
+@keyframes pulse-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px var(--hud-frame-color);
+  }
+  50% {
+    box-shadow: 0 0 15px var(--hud-frame-color), 0 0 5px var(--primary-color);
+  }
+}
+@keyframes blink {
+  from,
+  to {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  .logo {
+    width: 100%;
+    justify-content: center;
+  }
+  .logo svg {
+    max-width: 250px;
+  }
+  .hero h1 {
+    font-size: 2rem;
+  }
+  #skills-decoder {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* vt323-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "VT323";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/vt323-v17-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* fira-code-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Fira Code";
+  font-style: normal;
+  font-weight: 400;
+  src: url("../fonts/fira-code-v26-latin-regular.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* fira-code-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: "Fira Code";
+  font-style: normal;
+  font-weight: 700;
+  src: url("../fonts/fira-code-v26-latin-700.woff2") format("woff2"); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+.lang-switcher .fi {
+    font-size: 1rem; /* Define um tamanho de fonte base */
+    width: 1.5rem;   /* Define uma largura fixa */
+    height: 1.1rem;  /* Define uma altura fixa */
+    vertical-align: middle; /* Alinha verticalmente com o texto */
+}
